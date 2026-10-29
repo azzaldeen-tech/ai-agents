@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% load static tailwind_tags %}
+{% tailwind_css %}
+
+
+
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<!--dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">-->
+<head>
+    <title>{% block title %} تحليل اتجاهات سوق العمل {% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome CDN - v6.x (أحدث نسخة مستقرة وموصى بها) -->
+       <!-- خط القاهرة الموحد (تم دمج الأوزان لمنع التكرار) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- مكتبة Tom Select لتنسيق حقول الاختيار -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+
+    <!-- مكتبة Font Awesome (نسخة واحدة كاملة ومستقرة v6.5.1) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- مكتبات Google Material Symbols المبتكرة -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+
+       @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap');
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b82f6' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+        .counter {
+            font-variant-numeric: tabular-nums;
+        }
+        .smooth-scroll {
+            scroll-behavior: smooth;
+        }
+            /* أضف هذا الكلاس واستخدمه مع أرقام الإحصائيات */
+        .force-latin-numbers {
+            font-variant-numeric: lining-nums tabular-nums;
+            font-feature-settings: "lnum", "tnum";
+            /* في بعض الخطوط العربية نحتاج لتعطيل السمات المحلية للأرقام */
+            font-variant-ligatures: no-common-ligatures;
+        }
+         /* تنسيق شريط التمرير للقائمة الجانبية */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px; /* عرض نحيف جداً لعدم مضايقة الروابط */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent; /* خلفية شفافة ليبقى متناسقاً مع لون السايدبار */
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.05); /* لون رمادي خفيف جداً في الحالة العادية */
+            border-radius: 10px;
+            transition: background 0.3s ease;
+        }
+
+        /* يظهر اللون بوضوح أكبر عند تمرير الفأرة فوق القائمة */
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        /* لدعم متصفح فايرفوكس */
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+        }
+    </style>
+
+
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+    <!-- مكتبة المخططات البيانية Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+      <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        secondary: {
+                            500: '#10b981',
+                            600: '#059669',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body  class="bg-surface  transition-colors duration-300  font-sans antialiased h-screen overflow-auto">
+
+    {% include 'core/includes/navbar.html' %}
+    <div class="w-full">
+            {% if messages %}
+                <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md">
+                    {% for message in messages %}
+                        <div class="p-4 mb-2 rounded-lg shadow-lg text-[13px] text-white font-bold
+                            {% if message.tags == 'success' %} bg-green-500
+                            {% elif message.tags == 'error' %} bg-red-500
+                            {% else %} bg-blue-500 {% endif %}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+        {% block content %}
+        {% endblock %}
+
+    </div>
+
+
+    {% include 'core/includes/footer.html' %}
+
+<script>
+
+if (window.location.pathname === '/' || window.location.pathname === '') {
+        // التوجيه تلقائياً للرابط العربي
+        window.location.href = '/ar' + window.location.pathname;
+    }
+    setTimeout(function() {
+        let msg = document.querySelector('.fixed');
+        if (msg) msg.style.display = 'none';
+    }, 5000);
+
+     // ===================== القوائم المنسدلة =====================
+    function toggleDrop(id) {
+        const el = document.getElementById(id);
+        const isOpen = !el.classList.contains('pointer-events-none');
+        document.querySelectorAll('#notifDrop,#profileDrop').forEach(d => {
+            d.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+            d.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        });
+        if (!isOpen) {
+            el.classList.remove('opacity-0', '-translate-y-2', 'pointer-events-none');
+            el.classList.add('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        }
+    }
+
+    document.addEventListener('click', e => {
+        if (!e.target.closest('[onclick*="toggleDrop"]') && !e.target.closest('#notifDrop') && !e.target.closest('#profileDrop')) {
+            document.querySelectorAll('#notifDrop,#profileDrop').forEach(d => {
+                d.classList.add('opacity-0', '-translate-y-2', 'pointer-events-none');
+                d.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+            });
+        }
+    });
+</script>
+
+<script>
+
+    // 1. مصفوفة الثيمات المتاحة
+    const themes = ['light', 'dark'];//, 'emerald'];
+
+    // 2. دالة التطبيق (الوحيدة المسؤولة عن الشكل)
+    const applyTheme = (theme) => {
+        document.documentElement.setAttribute('data-theme', theme);
+        // إضافة كلاس dark فقط إذا كان الثيم هو dark لضمان عمل كلاسات dark: في تايلوند
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+        localStorage.setItem('theme', theme);
+    };
+
+    // 3. دالة التبديل (الدوران بين الثيمات)
+    async function toggleTheme() {
+        const current = localStorage.getItem('theme') || 'light';
+        const currentIndex = themes.indexOf(current);
+        // اختيار الثيم التالي في المصفوفة (والموؤشر يعود للصفر بعد الأخير)
+        const nextTheme = themes[(currentIndex + 1) % themes.length];
+
+        applyTheme(nextTheme);
+
+        // المزامنة مع السيرفر
+        if ("{{ user.is_authenticated }}" === "True") {
+            fetch('{% url "core:toggle_theme" %}', {
+                method: 'POST',
+                headers: {'X-CSRFToken': '{{ csrf_token }}', 'Content-Type': 'application/json'},
+                body: JSON.stringify({ 'theme': nextTheme })
+            });
+        }
+    }
+
+    // 4. التشغيل الفوري عند التحميل
+    const initialTheme = "{{ request.session.theme }}" || localStorage.getItem('theme') || 'light';
+    applyTheme(initialTheme === 'None' ? 'light' : initialTheme);
+</script>
+<script>
+  lucide.createIcons();
+</script>
+
+</body>
+</html>

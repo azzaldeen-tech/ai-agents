@@ -1,0 +1,49 @@
+{% extends 'members/base.html' %}
+
+{% block provider_content %}
+
+<div class="flex  items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class=" w-full p-8 bg-surface rounded-2xl ">
+     <div class="w-full  ">
+        {% back_button  url='members:dashboard' %}
+
+        <h2 class="text-xl font-bold text-center mb-8 text-content">
+              {% trans "Advertised Jobs" %}
+        </h2>
+     </div>
+
+       <div class="w-full space-y-5">
+           {% if jobs  %}
+               {% for job in jobs  %}
+                 {% job_card  job %}
+                 <div class="flex space-x-3" >
+                     {% if job.id in joined_jobs_ids %}
+                       <div class="text-center" style="width:100px" >
+                        {% url 'members:job_cancel' job.id as job_cancel_url %}
+                        {% link-button   url=job_cancel_url label="Cancel Join" extra_classes=" bg-error text-white"  %}
+                         </div>
+
+                     {% else %}
+                        <div class="text-center" style="width:100px" >
+                        {% url 'members:job_join' job.id as job_join_url %}
+                        {% link-button   url=job_join_url label="Join" extra_classes=" bg-brand text-white"  %}
+
+                     </div>
+                     {%endif%}
+                 </div>
+               {% endfor  %}
+           {% else  %}
+                <b class="text-center mx-auto text-content-muted"> No advertised jobs</b>
+           {% endif  %}
+       </div>
+
+
+
+
+    </div>
+
+</div>
+
+
+
+{% endblock  %}

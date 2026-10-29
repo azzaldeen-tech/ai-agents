@@ -1,0 +1,11 @@
+{% if skills %}
+    <div class="list-group">
+        {% for item in skills %}
+            <div class="list-group-item">
+                <strong>{{ item.name }}</strong>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="alert alert-warning">لا توجد نتائج مطابقة لبحثك.</p>
+{% endif %}

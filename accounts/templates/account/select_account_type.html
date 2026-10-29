@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+{% block title %}
+    {% trans "Select Type Account" %}
+{% endblock %}
+
+{% block content %}
+
+
+<div class="flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-950 min-h-[60vh]">
+    <div class="w-full max-w-2xl">
+
+        <!-- العنوان الرئيسي -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white mb-3">
+                {% trans "Join Our Community" %}
+            </h2>
+            <p class="text-gray-500 dark:text-gray-400">
+                {% trans "Select the account type that best fits your needs to get started." %}
+            </p>
+        </div>
+
+        <!-- شبكة الأدوار -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for role in identity_roles %}
+                {% with "accounts:signup_"|add:role.code as url_name %}
+                <a href="{% url url_name %}"
+                   class="group relative bg-white dark:bg-slate-900 p-8 rounded-2xl border-2 border-transparent hover:border-primary-500 shadow-sm hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col items-center text-center">
+
+                    <!-- خلفية زخرفية تظهر عند الحوم (Hover) -->
+                    <div class="absolute top-0 right-0 -mt-2 -mr-2 w-16 h-16 bg-primary-500/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+                    <!-- أيقونة متغيرة بناءً على الكود (اختياري: يمكنك تخصيصها) -->
+                    <div class="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                        {% if role.code == 'member' %}
+                            <i data-lucide="user-search" class="w-8 h-8 text-primary-600"></i>
+                        {% elif role.code == 'company' %}
+                            <i data-lucide="building-2" class="w-8 h-8 text-primary-600"></i>
+                        {% else %}
+                            <i data-lucide="briefcase" class="w-8 h-8 text-primary-600"></i>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                           {% if role.name == 'company' %}
+                                {% trans 'Company' %}
+                           {% elif role.name == 'member' %}
+                                {% trans 'Member' %}
+                           {% endif%}
+
+                    </h3>
+
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+                        {% if role.code == 'member' %}
+                            {% trans "Discover jobs and track market trends." %}
+                        {% else %}
+                            {% trans "Hire top talents and manage your team." %}
+                        {% endif %}
+                    </p>
+
+                    <!-- زر داخلي وهمي للتوجيه البصري -->
+                    <span class="inline-flex items-center text-sm font-semibold text-primary-600 group-hover:gap-2 transition-all">
+                        {% trans "Get Started" %}
+                        <i data-lucide="chevron-left" class="w-4 h-4 {% if not LANGUAGE_BIDI %}rotate-180{% endif %}"></i>
+                    </span>
+                </a>
+                {% endwith %}
+            {% endfor %}
+        </div>
+
+        <!-- العودة لتسجيل الدخول -->
+        <p class="text-center mt-10 text-gray-500 dark:text-gray-400">
+            {% trans "Already have an account?" %}
+            <a href="{% url 'accounts:login' %}" class="text-primary-600 font-bold hover:underline">
+                {% trans "Sign In" %}
+            </a>
+        </p>
+    </div>
+</div>
+{% endblock %}

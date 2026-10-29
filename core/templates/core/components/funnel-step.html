@@ -1,0 +1,25 @@
+<div class="funnel-step flex items-center gap-4 cursor-default group">
+    <div class="w-[120px] lg:w-[140px] shrink-0 text-left">
+        <div class="text-[12px] font-medium text-content-muted leading-snug">{{ label }}</div>
+    </div>
+
+    <div class="flex-1">
+        <div class="h-8 bg-surface-card rounded-lg overflow-hidden border border-stroke-soft">
+            <div class="funnel-bar h-full rounded-lg flex items-center px-3 transition-all duration-1000 ease-out"
+                 style="width:{{ percentage|safe }}%; background-color: {{ color }}; opacity: 0.85;"
+                 role="progressbar"
+                 aria-valuenow="{{  percentage|safe }}"
+                 aria-valuemin="0"
+                 aria-valuemax="100">
+
+                <span class="text-[11px] font-bold text-white font-display whitespace-nowrap">
+                    {{ count }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-14 text-left font-display text-[13px] font-bold text-content-muted">
+        {{ percentage }}%
+    </div>
+</div>

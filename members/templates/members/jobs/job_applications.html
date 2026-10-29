@@ -1,0 +1,94 @@
+{% extends 'members/base.html' %}
+
+{% block provider_content %}
+
+<div class="flex  items-center justify-center  px-4 sm:px-6 lg:px-8">
+    <div class=" w-full p-0  rounded-2xl ">
+     <div class="w-full  ">
+        {% back_button  url='members:dashboard' %}
+
+        <h2 class="text-xl font-bold text-center mb-8 text-content">
+              {% trans "Jobs Applications" %}
+        </h2>
+     </div>
+       <div class="w-full space-y-5">
+
+               {% for c in job_applications  %}
+
+                 <div class="bg-surface-card rounded-xl">
+
+                    <div class="candidate-row flex items-center gap-4 py-4 rounded-2xl px-3  transition-all duration-300 hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100 {% if not is_last %}border-b border-slate-50{% endif %}">
+
+                        <div class="w-12 h-12 shrink-0 relative">
+                            {% if c.job.company.logo %}
+                                <img src="{{ c.job.company.logo }}" alt="{{ c.job.company.name }}" class="w-12 h-12 rounded-xl object-contain border border-slate-100 bg-white p-1 shadow-sm">
+                            {% else %}
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-slate-100 text-slate-400 border border-slate-200">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex-1 min-w-0">
+                            <div class="text-[15px] font-bold text-slate-800 group-hover:text-indigo-600 transition-colors truncate">
+                                {{ c.role }}
+                            </div>
+                            <div class="text-[13px] text-slate-500 font-medium flex items-center gap-1.5 mt-0.5">
+                                <span class="text-indigo-500">@</span>
+                                {{ c.job.company.name }}
+                            </div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                           {% if c.status == 'pending' %}
+                               {% url 'members:job_app_cancel' c.id as cancel_app_url %}
+                                {% delete_button   action_url=cancel_app_url   label=_('إلغاء الطلب')  %}
+                             {% elif c.status == 'accepted' %}
+                                {% url 'members:job_resignation' c.id as resignation_url %}
+                                {% delete_button   action_url=resignation_url   label=_('طلب إستقالة')  %}
+                            {% endif %}
+                        </div>
+                        <div class="flex flex-col items-center md:items-start gap-1">
+                            {% if c.status == 'accepted' %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xm font-bold border border-emerald-100">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    تم قبولك
+                                </span>
+                            {% elif c.status == 'rejected' %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-500 text-xm font-bold border border-slate-200">
+                                    اعتذار
+                                </span>
+                            {% else %}
+                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xm font-bold border border-blue-100">
+                                    تحت المراجعة
+                                </span>
+                            {% endif %}
+                            <span class="text-xm text-slate-400 md:mr-2">منذ {{ c.time }}</span>
+                        </div>
+
+                        <div class="flex flex-col items-end shrink-0 min-w-[80px] bg-slate-50 rounded-xl p-2 border border-slate-100">
+                            <div class="text-[14px] font-black text-slate-700 leading-none">{{ c.match }}%</div>
+                            <div class="text-[9px] text-slate-400 font-bold uppercase tracking-tighter mt-1">نسبة التوافق</div>
+
+                            <div class="w-full h-1 bg-slate-200 rounded-full mt-1.5 overflow-hidden">
+                                <div class="h-full bg-indigo-500" style="width: {{ c.match }}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="text-slate-300 group-hover:text-indigo-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+
+                 </div>
+               {% empty  %}
+                    <b class="text-center mx-auto text-content-muted"> No Candidates </b>
+               {% endfor  %}
+
+       </div>
+    </div>
+
+</div>
+
+
+
+{% endblock  %}

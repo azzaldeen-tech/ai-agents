@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ملف شركة نوفا تك - منصة التوظيف</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0A3D2E;
+            --primary-light: #0F5E45;
+            --accent: #C8A951;
+            --accent-light: #E0C97A;
+            --bg: #F5F2EB;
+            --bg-card: #FFFFFF;
+            --fg: #1A1A1A;
+            --fg-muted: #6B7280;
+            --border: #E2DDD3;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            overflow-x: hidden;
+        }
+
+        /* شريط التنقل */
+        .navbar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+            background: rgba(10, 61, 46, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(200, 169, 81, 0.15);
+            transition: all 0.4s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(10, 61, 46, 0.98);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+        }
+
+        .nav-link {
+            position: relative;
+            color: rgba(255,255,255,0.7);
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 50%;
+            transform: translateX(50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 60%;
+        }
+
+        /* قسم الغلاف */
+        .cover-section {
+            position: relative;
+            height: 420px;
+            overflow: hidden;
+        }
+
+        .cover-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(10, 61, 46, 0.85) 0%, rgba(15, 94, 69, 0.7) 50%, rgba(200, 169, 81, 0.3) 100%),
+                url('https://picsum.photos/seed/novatech-office/1920/600.jpg');
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.05);
+            transition: transform 8s ease;
+        }
+
+        .cover-section:hover .cover-bg {
+            transform: scale(1);
+        }
+
+        .cover-pattern {
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(200, 169, 81, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .cover-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(200, 169, 81, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200, 169, 81, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+        }
+
+        /* شعار الشركة */
+        .company-logo {
+            width: 130px;
+            height: 130px;
+            border-radius: 24px;
+            background: var(--bg-card);
+            border: 5px solid var(--bg);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .company-logo:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+        }
+
+        .company-logo::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            opacity: 0.1;
+        }
+
+        .logo-text {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* شارة التحقق */
+        .verified-badge {
+            position: absolute;
+            bottom: -4px;
+            left: -4px;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid var(--bg);
+            z-index: 2;
+        }
+
+        /* بطاقات الإحصائيات */
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--accent), var(--primary-light));
+            transition: height 0.4s ease;
+            border-radius: 0 0 4px 0;
+        }
+
+        .stat-card:hover::before {
+            height: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(10, 61, 46, 0.1);
+            border-color: rgba(200, 169, 81, 0.3);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+        }
+
+        /* بطاقات الوظائف */
+        .job-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .job-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(10, 61, 46, 0.02), rgba(200, 169, 81, 0.03));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(10, 61, 46, 0.12);
+            border-color: rgba(200, 169, 81, 0.4);
+        }
+
+        .job-card:hover::after {
+            opacity: 1;
+        }
+
+        .job-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tag-type {
+            background: rgba(10, 61, 46, 0.08);
+            color: var(--primary);
+        }
+
+        .tag-remote {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .tag-urgent {
+            background: rgba(239, 68, 68, 0.1);
+            color: #DC2626;
+            animation: pulse-tag 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-tag {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* بطاقة المعلومات الجانبية */
+        .info-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+
+        .info-card-header {
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .info-item:last-child { border-bottom: none; }
+
+        .info-item:hover {
+            background: rgba(200, 169, 81, 0.04);
+            padding-right: 2rem;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        /* تقييمات النجوم */
+        .stars-container {
+            display: flex;
+            gap: 3px;
+            direction: ltr;
+        }
+
+        .star {
+            color: var(--border);
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .star.filled { color: var(--accent); }
+
+        /* بطاقة التقييم */
+        .review-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+        }
+
+        .review-card:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            border-color: rgba(200, 169, 81, 0.2);
+        }
+
+        .review-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        /* أزرار */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(10, 61, 46, 0.3);
+        }
+
+        .btn-primary:hover::before { opacity: 1; }
+
+        .btn-primary span { position: relative; z-index: 1; }
+        .btn-primary i { position: relative; z-index: 1; }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: var(--primary);
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(200, 169, 81, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 2px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(200, 169, 81, 0.05);
+        }
+
+        /* معرض الصور */
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10, 61, 46, 0.7), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        /* التبويبات */
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--fg-muted);
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(10, 61, 46, 0.25);
+        }
+
+        .tab-btn:not(.active):hover {
+            background: rgba(10, 61, 46, 0.06);
+            color: var(--primary);
+        }
+
+        .tab-content { display: none; animation: fadeUp 0.5s ease; }
+        .tab-content.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* شريط التقدم */
+        .progress-bar {
+            height: 8px;
+            background: rgba(10, 61, 46, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 1.2s ease;
+            width: 0;
+        }
+
+        /* التواصل الاجتماعي */
+        .social-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+            color: var(--fg-muted);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--bg-card);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .social-btn.linkedin:hover { background: #0077B5; color: white; border-color: #0077B5; }
+        .social-btn.twitter:hover { background: #1DA1F2; color: white; border-color: #1DA1F2; }
+        .social-btn.website:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .social-btn.instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; border-color: transparent; }
+
+        /* جزيئات متحركة */
+        .floating-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(200, 169, 81, 0.3);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-400px) rotate(360deg); opacity: 0; }
+        }
+
+        /* أنيميشن الظهور */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* شريط البحث */
+        .search-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            width: 200px;
+        }
+
+        .search-box::placeholder { color: rgba(255,255,255,0.5); }
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.15);
+            width: 260px;
+        }
+
+        /* الفلتر */
+        .filter-chip {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--fg-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .filter-chip.active, .filter-chip:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* تلميح */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            z-index: 999;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 40px rgba(10, 61, 46, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* المودال */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 520px;
+            width: 90%;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* سكرولبار مخصص */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: rgba(10, 61, 46, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(10, 61, 46, 0.35); }
+
+        /* استجابة */
+        @media (max-width: 768px) {
+            .cover-section { height: 300px; }
+            .company-logo { width: 100px; height: 100px; }
+            .logo-text { font-size: 1.5rem; }
+            .stat-number { font-size: 1.5rem; }
+            .search-box { width: 150px; }
+            .search-box:focus { width: 180px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <nav class="navbar" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+            <div class="flex items-center gap-8">
+                <a href="#" class="flex items-center gap-2 text-white">
+                    <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                        <i class="fas fa-briefcase text-sm text-emerald-900"></i>
+                    </div>
+                    <span class="font-bold text-lg hidden sm:block">وظّفني</span>
+                </a>
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="#" class="nav-link">الرئيسية</a>
+                    <a href="#" class="nav-link active">الشركات</a>
+                    <a href="#" class="nav-link">الوظائف</a>
+                    <a href="#" class="nav-link">المدونة</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <input type="text" placeholder="ابحث عن وظيفة..." class="search-box hidden sm:block">
+                <button class="btn-outline text-white border-white/20 hover:border-amber-400 hover:text-amber-400 hover:bg-transparent hidden sm:inline-flex" style="padding: 0.5rem 1rem; font-size: 0.82rem;">
+                    <i class="fas fa-user-circle"></i>
+                    <span>حسابي</span>
+                </button>
+                <button class="md:hidden text-white text-xl" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- قسم الغلاف -->
+    <header class="cover-section" id="coverSection">
+        <div class="cover-bg"></div>
+        <div class="cover-pattern"></div>
+        <div class="cover-grid"></div>
+        <div id="particles"></div>
+
+        <!-- زر رفع الغلاف -->
+        <button class="absolute top-20 left-4 sm:top-24 sm:left-6 w-10 h-10 rounded-xl bg-black/30 backdrop-blur-sm text-white/70 hover:text-white hover:bg-black/50 transition-all flex items-center justify-center" aria-label="تغيير صورة الغلاف">
+            <i class="fas fa-camera text-sm"></i>
+        </button>
+    </header>
+
+    <!-- منطقة معلومات الشركة الأساسية -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 -mt-20 relative z-10">
+        <div class="flex flex-col md:flex-row items-start gap-6">
+            <!-- الشعار والاسم -->
+            <div class="flex items-end gap-5 flex-1">
+                <div class="company-logo flex-shrink-0">
+                    <span class="logo-text">NT</span>
+                    <div class="verified-badge">
+                        <i class="fas fa-check text-white text-xs"></i>
+                    </div>
+                </div>
+                <div class="pb-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <h1 class="text-2xl sm:text-3xl font-black text-gray-900">نوفا تك للأنظمة</h1>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">شركة تقنية</span>
+                    </div>
+                    <p class="text-gray-500 mt-1 text-sm">Nova Tech Systems — حلول رقمية متكاملة منذ 2015</p>
+                    <div class="flex items-center gap-4 mt-2 flex-wrap">
+                        <div class="flex items-center gap-1.5 text-sm text-gray-500">
+                            <i class="fas fa-map-marker-alt text-amber-500 text-xs"></i>
+                            <span>الرياض، المملكة العربية السعودية</span>
+                        </div>
+                        <div class="stars-container">
+                            <i class="fas fa-star star filled"></i>
+                            <i class="fas fa-star star filled"></i>
+                            <i class="fas fa-star star filled"></i>
+                            <i class="fas fa-star star filled"></i>
+                            <i class="fas fa-star-half-alt star filled"></i>
+                            <span class="text-sm text-gray-500 mr-1 font-semibold">4.6</span>
+                            <span class="text-xs text-gray-400">(328 تقييم)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- الأزرار -->
+            <div class="flex items-center gap-3 flex-wrap pb-1">
+                <button class="btn-primary" onclick="showToast('تم متابعة الشركة بنجاح')">
+                    <i class="fas fa-plus"></i>
+                    <span>متابعة</span>
+                </button>
+                <button class="btn-accent" onclick="openModal()">
+                    <i class="fas fa-paper-plane"></i>
+                    <span>تواصل معنا</span>
+                </button>
+                <button class="btn-outline" onclick="showToast('تم نسخ رابط الملف الشخصي')">
+                    <i class="fas fa-share-alt"></i>
+                    <span>مشاركة</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- الإحصائيات -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 mt-8 reveal">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="stat-card text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-50 flex items-center justify-center">
+                    <i class="fas fa-briefcase text-emerald-600"></i>
+                </div>
+                <div class="stat-number" data-target="47">0</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">وظيفة شاغرة</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-amber-50 flex items-center justify-center">
+                    <i class="fas fa-users text-amber-600"></i>
+                </div>
+                <div class="stat-number" data-target="850">0</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">موظف</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-50 flex items-center justify-center">
+                    <i class="fas fa-user-check text-sky-600"></i>
+                </div>
+                <div class="stat-number" data-target="1240">0</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">تم التوظيف</div>
+            </div>
+            <div class="stat-card text-center">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-rose-50 flex items-center justify-center">
+                    <i class="fas fa-eye text-rose-500"></i>
+                </div>
+                <div class="stat-number" data-target="56">0</div>
+                <div class="text-sm text-gray-500 mt-1 font-medium">ألف مشاهدة</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 mt-10">
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- العمود الرئيسي -->
+            <div class="flex-1 min-w-0">
+                <!-- التبويبات -->
+                <div class="flex items-center gap-2 mb-6 overflow-x-auto pb-2 reveal">
+                    <button class="tab-btn active" onclick="switchTab('about')">نظرة عامة</button>
+                    <button class="tab-btn" onclick="switchTab('jobs')">الوظائف</button>
+                    <button class="tab-btn" onclick="switchTab('gallery')">المعرض</button>
+                    <button class="tab-btn" onclick="switchTab('reviews')">التقييمات</button>
+                </div>
+
+                <!-- تبويب: نظرة عامة -->
+                <div class="tab-content active" id="tab-about">
+                    <!-- عن الشركة -->
+                    <div class="info-card reveal">
+                        <div class="info-card-header flex items-center gap-2">
+                            <i class="fas fa-building"></i>
+                            عن الشركة
+                        </div>
+                        <div class="p-6">
+                            <p class="text-gray-600 leading-relaxed mb-4">
+                                نوفا تك للأنظمة هي شركة رائدة في مجال التحول الرقمي وتطوير الأنظمة التقنية المتكاملة. تأسست عام 2015 في الرياض، وتوسعت لتشمل فروعاً في جدة والدمام ودبي. نعمل مع أكثر من 200 عميل من القطاعين الحكومي والخاص في تقديم حلول مبتكرة تواكب أهداف رؤية المملكة 2030.
+                            </p>
+                            <p class="text-gray-600 leading-relaxed mb-5">
+                                نؤمن بأن التكنولوجيا ليست مجرد أداة، بل شريك استراتيجي في بناء مستقبل أفضل. فريقنا يضم نخبة من المهندسين والمطورين والمصممين الذين يجمعون بين الخبرة العميقة والشغف بالابتكار.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">تحول رقمي</span>
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">ذكاء اصطناعي</span>
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">حوسبة سحابية</span>
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">أمن سيبراني</span>
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">تطوير برمجيات</span>
+                                <span class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">بيانات ضخمة</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- رؤيتنا وقيمنا -->
+                    <div class="grid md:grid-cols-2 gap-6 mt-6">
+                        <div class="info-card reveal" style="transition-delay: 0.1s;">
+                            <div class="p-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center mb-4">
+                                    <i class="fas fa-eye text-emerald-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold mb-2">رؤيتنا</h3>
+                                <p class="text-gray-500 text-sm leading-relaxed">
+                                    أن نكون الشريك التقني الأول في المنطقة العربية، ونساهم في بناء اقتصاد رقمي مستدام يعزز الابتكار ويرتقي بجودة الحياة.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="info-card reveal" style="transition-delay: 0.2s;">
+                            <div class="p-6">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-50 to-amber-100 flex items-center justify-center mb-4">
+                                    <i class="fas fa-bullseye text-amber-600 text-xl"></i>
+                                </div>
+                                <h3 class="text-lg font-bold mb-2">مهمتنا</h3>
+                                <p class="text-gray-500 text-sm leading-relaxed">
+                                    تمكين المؤسسات من تحقيق أقصى استفادة من التقنية من خلال حلول مخصصة، سلسلة، وقابلة للتطوير تلبي احتياجاتها الفريدة.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- قيمنا الأساسية -->
+                    <div class="info-card mt-6 reveal" style="transition-delay: 0.15s;">
+                        <div class="info-card-header flex items-center gap-2">
+                            <i class="fas fa-gem"></i>
+                            قيمنا الأساسية
+                        </div>
+                        <div class="p-6 grid sm:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-lightbulb text-emerald-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">الابتكار</h4>
+                                    <p class="text-xs text-gray-500 mt-0.5">نبحث دائماً عن حلول غير تقليدية</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-handshake text-amber-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">الشراكة الحقيقية</h4>
+                                    <p class="text-xs text-gray-500 mt-0.5">نجاح عملائنا هو نجاحنا</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-sky-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-shield-alt text-sky-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">الموثوقية</h4>
+                                    <p class="text-xs text-gray-500 mt-0.5">نلتزم بأعلى معايير الجودة والأمان</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-rose-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-heart text-rose-500 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">رعاية الموظفين</h4>
+                                    <p class="text-xs text-gray-500 mt-0.5">فريقنا هو أثمن ما نملك</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- تبويب: الوظائف -->
+                <div class="tab-content" id="tab-jobs">
+                    <!-- فلتر الوظائف -->
+                    <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-2 flex-wrap">
+                        <button class="filter-chip active" onclick="filterJobs('all', this)">الكل</button>
+                        <button class="filter-chip" onclick="filterJobs('tech', this)">تقنية</button>
+                        <button class="filter-chip" onclick="filterJobs('design', this)">تصميم</button>
+                        <button class="filter-chip" onclick="filterJobs('management', this)">إدارة</button>
+                        <button class="filter-chip" onclick="filterJobs('marketing', this)">تسويق</button>
+                    </div>
+
+                    <div class="space-y-4" id="jobsList">
+                        <!-- الوظائف تُولد بالجافاسكربت -->
+                    </div>
+                </div>
+
+                <!-- تبويب: المعرض -->
+                <div class="tab-content" id="tab-gallery">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-office1/600/400.jpg" alt="المكتب الرئيسي" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">المكتب الرئيسي - الرياض</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-team2/600/400.jpg" alt="فريق العمل" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">فريق التطوير</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-event3/600/400.jpg" alt="فعالية" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">هاكاثون 2024</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-meeting4/600/400.jpg" alt="اجتماع" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">اجتماع التخطيط الاستراتيجي</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-lounge5/600/400.jpg" alt="مساحة العمل" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">مساحة العمل المشتركة</span>
+                            </div>
+                        </div>
+                        <div class="gallery-item h-48 md:h-56">
+                            <img src="https://picsum.photos/seed/nova-awards6/600/400.jpg" alt="جوائز" loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="text-white text-sm font-medium">حفل توزيع الجوائز السنوي</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- تبويب: التقييمات -->
+                <div class="tab-content" id="tab-reviews">
+                    <!-- ملخص التقييمات -->
+                    <div class="info-card mb-6">
+                        <div class="p-6 flex flex-col sm:flex-row gap-6">
+                            <div class="text-center sm:text-right flex-shrink-0">
+                                <div class="text-5xl font-black text-gray-900">4.6</div>
+                                <div class="stars-container justify-center sm:justify-start mt-2">
+                                    <i class="fas fa-star star filled"></i>
+                                    <i class="fas fa-star star filled"></i>
+                                    <i class="fas fa-star star filled"></i>
+                                    <i class="fas fa-star star filled"></i>
+                                    <i class="fas fa-star-half-alt star filled"></i>
+                                </div>
+                                <div class="text-sm text-gray-400 mt-1">328 تقييم</div>
+                            </div>
+                            <div class="flex-1 space-y-2.5">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-gray-500 w-8">5 نجوم</span>
+                                    <div class="progress-bar flex-1"><div class="progress-fill" data-width="68"></div></div>
+                                    <span class="text-xs text-gray-400 w-8">68%</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-gray-500 w-8">4 نجوم</span>
+                                    <div class="progress-bar flex-1"><div class="progress-fill" data-width="22"></div></div>
+                                    <span class="text-xs text-gray-400 w-8">22%</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-gray-500 w-8">3 نجوم</span>
+                                    <div class="progress-bar flex-1"><div class="progress-fill" data-width="6"></div></div>
+                                    <span class="text-xs text-gray-400 w-8">6%</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-gray-500 w-8">2 نجوم</span>
+                                    <div class="progress-bar flex-1"><div class="progress-fill" data-width="3"></div></div>
+                                    <span class="text-xs text-gray-400 w-8">3%</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs text-gray-500 w-8">1 نجمة</span>
+                                    <div class="progress-bar flex-1"><div class="progress-fill" data-width="1"></div></div>
+                                    <span class="text-xs text-gray-400 w-8">1%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- قائمة التقييمات -->
+                    <div class="space-y-4" id="reviewsList">
+                        <!-- تُولد بالجافاسكربت -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- العمود الجانبي -->
+            <aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
+                <!-- معلومات الشركة -->
+                <div class="info-card reveal" style="transition-delay: 0.1s;">
+                    <div class="info-card-header flex items-center gap-2">
+                        <i class="fas fa-info-circle"></i>
+                        معلومات الشركة
+                    </div>
+                    <div>
+                        <div class="info-item">
+                            <div class="info-icon bg-emerald-50 text-emerald-600">
+                                <i class="fas fa-industry"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">القطاع</div>
+                                <div class="text-sm font-semibold">تقنية المعلومات</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon bg-amber-50 text-amber-600">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">تأسست</div>
+                                <div class="text-sm font-semibold">2015</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon bg-sky-50 text-sky-600">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">حجم الشركة</div>
+                                <div class="text-sm font-semibold">500 - 1000 موظف</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon bg-rose-50 text-rose-500">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">النوع</div>
+                                <div class="text-sm font-semibold">شركة مساهمة مقفلة</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon bg-purple-50 text-purple-600">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">الموقع الإلكتروني</div>
+                                <a href="#" class="text-sm font-semibold text-emerald-700 hover:text-amber-600 transition-colors">www.novatech.sa</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- المواقع -->
+                <div class="info-card reveal" style="transition-delay: 0.2s;">
+                    <div class="info-card-header flex items-center gap-2">
+                        <i class="fas fa-map-marked-alt"></i>
+                        فروعنا
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-building text-emerald-600 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold">الرياض - المقر الرئيسي</div>
+                                <div class="text-xs text-gray-400 mt-0.5">طريق الملك فهد، برج نوفا، الطابق 15</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-amber-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-building text-amber-600 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold">جدة</div>
+                                <div class="text-xs text-gray-400 mt-0.5">شارع التحلية، مركز الأعمال الدولي</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-building text-sky-600 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold">الدمام</div>
+                                <div class="text-xs text-gray-400 mt-0.5">حي الفيصلية، مجمع السيليكون</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-rose-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fas fa-building text-rose-500 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="text-sm font-bold">دبي - الإمارات</div>
+                                <div class="text-xs text-gray-400 mt-0.5">ديرة سيتي، برج إنترنت سيتي</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- المزايا والمنافع -->
+                <div class="info-card reveal" style="transition-delay: 0.25s;">
+                    <div class="info-card-header flex items-center gap-2">
+                        <i class="fas fa-gift"></i>
+                        مزايا العمل
+                    </div>
+                    <div class="p-5 grid grid-cols-2 gap-3">
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>تأمين طبي شامل</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>بدل سكن</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>تذاكر سنوية</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>عمل مرن</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>تدريب مستمر</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>بيئة عمل حديثة</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>حوافز أداء</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm text-gray-600">
+                            <i class="fas fa-check-circle text-emerald-500 text-xs"></i>
+                            <span>إجازة أمومة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- التواصل الاجتماعي -->
+                <div class="info-card reveal" style="transition-delay: 0.3s;">
+                    <div class="info-card-header flex items-center gap-2">
+                        <i class="fas fa-share-nodes"></i>
+                        تواصل معنا
+                    </div>
+                    <div class="p-5 flex items-center gap-3 justify-center">
+                        <button class="social-btn linkedin" aria-label="لينكدإن"><i class="fab fa-linkedin-in"></i></button>
+                        <button class="social-btn twitter" aria-label="تويتر"><i class="fab fa-x-twitter"></i></button>
+                        <button class="social-btn instagram" aria-label="انستقرام"><i class="fab fa-instagram"></i></button>
+                        <button class="social-btn website" aria-label="الموقع الإلكتروني"><i class="fas fa-globe"></i></button>
+                    </div>
+                </div>
+
+                <!-- خريطة صغيرة -->
+                <div class="info-card reveal" style="transition-delay: 0.35s;">
+                    <div class="info-card-header flex items-center gap-2">
+                        <i class="fas fa-map"></i>
+                        الموقع على الخريطة
+                    </div>
+                    <div class="h-48 bg-gray-100 relative overflow-hidden">
+                        <img src="https://picsum.photos/seed/map-riyadh/600/300.jpg" alt="موقع الشركة على الخريطة" class="w-full h-full object-cover opacity-60">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-red-500 flex items-center justify-center shadow-lg animate-bounce">
+                                <i class="fas fa-map-marker-alt text-white text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- تذييل الصفحة -->
+    <footer class="mt-16 border-t border-gray-200" style="background: var(--primary);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                            <i class="fas fa-briefcase text-sm text-emerald-900"></i>
+                        </div>
+                        <span class="font-bold text-lg text-white">وظّفني</span>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed">منصة التوظيف الأولى في المملكة العربية السعودية، نربط المواهب بالفرص المناسبة.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">روابط سريعة</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">تصفح الوظائف</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">الشركات المميزة</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">نصائح مهنية</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">مركز المساعدة</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">للشركات</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">أنشئ حسابك</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">انشر وظيفة</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">الباقات والأسعار</a></li>
+                        <li><a href="#" class="hover:text-amber-400 transition-colors">تحليلات التوظيف</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">تواصل معنا</h4>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li class="flex items-center gap-2"><i class="fas fa-envelope text-amber-500 text-xs"></i> info@wazzafni.sa</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-phone text-amber-500 text-xs"></i> 920000123</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-amber-500 text-xs"></i> الرياض، السعودية</li>
+                    </ul>
+                    <div class="flex items-center gap-2 mt-4">
+                        <button class="w-9 h-9 rounded-lg bg-white/10 text-gray-400 hover:bg-amber-500 hover:text-white transition-all flex items-center justify-center" aria-label="تويتر"><i class="fab fa-x-twitter text-sm"></i></button>
+                        <button class="w-9 h-9 rounded-lg bg-white/10 text-gray-400 hover:bg-amber-500 hover:text-white transition-all flex items-center justify-center" aria-label="لينكدإن"><i class="fab fa-linkedin-in text-sm"></i></button>
+                        <button class="w-9 h-9 rounded-lg bg-white/10 text-gray-400 hover:bg-amber-500 hover:text-white transition-all flex items-center justify-center" aria-label="انستقرام"><i class="fab fa-instagram text-sm"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-gray-500 text-sm">جميع الحقوق محفوظة لمنصة وظّفني 2025</p>
+                <div class="flex items-center gap-4 text-sm text-gray-500">
+                    <a href="#" class="hover:text-amber-400 transition-colors">سياسة الخصوصية</a>
+                    <a href="#" class="hover:text-amber-400 transition-colors">الشروط والأحكام</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- مودال التواصل -->
+    <div class="modal-overlay" id="contactModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-bold">تواصل مع نوفا تك</h3>
+                <button class="w-9 h-9 rounded-lg bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors" onclick="closeModal()" aria-label="إغلاق">
+                    <i class="fas fa-times text-gray-500"></i>
+                </button>
+            </div>
+            <form onsubmit="submitContact(event)">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5 text-gray-700">الاسم الكامل</label>
+                        <input type="text" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all" placeholder="أدخل اسمك">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5 text-gray-700">البريد الإلكتروني</label>
+                        <input type="email" required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all" placeholder="example@email.com" dir="ltr">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5 text-gray-700">الموضوع</label>
+                        <select required class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all bg-white">
+                            <option value="">اختر الموضوع</option>
+                            <option>استفسار عن وظيفة</option>
+                            <option>شراكة تجارية</option>
+                            <option>دعم فني</option>
+                            <option>أخرى</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-1.5 text-gray-700">الرسالة</label>
+                        <textarea required rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100 transition-all resize-none" placeholder="اكتب رسالتك هنا..."></textarea>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 mt-6">
+                    <button type="submit" class="btn-primary flex-1 justify-center">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>إرسال الرسالة</span>
+                    </button>
+                    <button type="button" class="btn-outline" onclick="closeModal()">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- تلميح الإشعار -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle text-amber-400"></i>
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // ========= بيانات الوظائف =========
+        const jobsData = [
+            {
+                id: 1, title: 'مطور واجهات أمامية (Senior)', category: 'tech',
+                type: 'دوام كامل', remote: 'حضوري', location: 'الرياض',
+                salary: '18,000 - 25,000 ريال', posted: 'منذ يومين', urgent: true,
+                tags: ['React', 'TypeScript', 'Next.js']
+            },
+            {
+                id: 2, title: 'مصمم تجربة مستخدم UX', category: 'design',
+                type: 'دوام كامل', remote: 'هجين', location: 'جدة',
+                salary: '15,000 - 20,000 ريال', posted: 'منذ 5 أيام', urgent: false,
+                tags: ['Figma', 'User Research', 'Prototyping']
+            },
+            {
+                id: 3, title: 'مدير مشاريع تقنية', category: 'management',
+                type: 'دوام كامل', remote: 'حضوري', location: 'الرياض',
+                salary: '22,000 - 30,000 ريال', posted: 'منذ أسبوع', urgent: false,
+                tags: ['PMP', 'Agile', 'Scrum']
+            },
+            {
+                id: 4, title: 'مهندس DevOps', category: 'tech',
+                type: 'دوام كامل', remote: 'عن بُعد', location: 'الرياض',
+                salary: '20,000 - 28,000 ريال', posted: 'منذ 3 أيام', urgent: true,
+                tags: ['AWS', 'Docker', 'Kubernetes', 'CI/CD']
+            },
+            {
+                id: 5, title: 'مخصص محتوى رقمي', category: 'marketing',
+                type: 'دوام جزئي', remote: 'عن بُعد', location: 'بدون موقع',
+                salary: '8,000 - 12,000 ريال', posted: 'منذ يوم', urgent: false,
+                tags: ['Copywriting', 'SEO', 'Social Media']
+            },
+            {
+                id: 6, title: 'مطور تطبيقات Flutter', category: 'tech',
+                type: 'دوام كامل', remote: 'هجين', location: 'الدمام',
+                salary: '16,000 - 22,000 ريال', posted: 'منذ 4 أيام', urgent: false,
+                tags: ['Flutter', 'Dart', 'Firebase']
+            },
+            {
+                id: 7, title: 'مصمم جرافيك', category: 'design',
+                type: 'دوام كامل', remote: 'حضوري', location: 'الرياض',
+                salary: '10,000 - 14,000 ريال', posted: 'منذ 6 أيام', urgent: false,
+                tags: ['Adobe Suite', 'Branding', 'Motion']
+            },
+            {
+                id: 8, title: 'مدير تسويق رقمي', category: 'marketing',
+                type: 'دوام كامل', remote: 'هجين', location: 'الرياض',
+                salary: '18,000 - 24,000 ريال', posted: 'منذ 3 أيام', urgent: true,
+                tags: ['Google Ads', 'Analytics', 'Strategy']
+            }
+        ];
+
+        // ========= بيانات التقييمات =========
+        const reviewsData = [
+            {
+                name: 'سارة العتيبي', role: 'مطورة سابقة', avatar: 'sara-dev',
+                rating: 5, date: 'منذ شهر',
+                text: 'بيئة عمل مذهلة وفريق داعم جداً. تعلمت الكثير خلال سنتين من عملي هناك والتطوير المهني كان مستمراً. أنصح بشدة بالانضمام لمن يبحث عن نمو حقيقي.'
+            },
+            {
+                name: 'محمد الشمري', role: 'مدير مشروع سابق', avatar: 'mohammed-pm',
+                rating: 4, date: 'منذ 3 أشهر',
+                text: 'شركة منظمة ذات عمليات واضحة. الإدارة تستمع للموظفين وتحاول تلبية احتياجاتهم.唯一的 ملاحظة هي أن ساعات العمل قد تطول أحياناً في المشاريع الكبيرة.'
+            },
+            {
+                name: 'نورة القحطاني', role: 'مصممة UX حالية', avatar: 'noura-ux',
+                rating: 5, date: 'منذ أسبوعين',
+                text: 'أفضل قرار اتخذته في مسيرتي المهنية. الفريق التقني ممتاز والثقافة التنظيمية إيجابية. المزايا والحوافز تنافسية جداً مقارنة بالسوق.'
+            },
+            {
+                name: 'خالد الدوسري', role: 'مهندس سحابة سابق', avatar: 'khaled-cloud',
+                rating: 4, date: 'منذ 5 أشهر',
+                text: 'فرصة رائعة للعمل على مشاريع ضخمة مع عملاء حكوميين وخاصيين كبار. التدريب التقني مستمر والشهادات المهنية مدعومة من الشركة.'
+            }
+        ];
+
+        // ========= توليد بطاقات الوظائف =========
+        function renderJobs(filter = 'all') {
+            const container = document.getElementById('jobsList');
+            const filtered = filter === 'all' ? jobsData : jobsData.filter(j => j.category === filter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <i class="fas fa-search text-4xl text-gray-300 mb-3"></i>
+                        <p class="text-gray-400">لا توجد وظائف في هذا التصنيف حالياً</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = filtered.map(job => `
+                <div class="job-card" data-category="${job.category}">
+                    <div class="relative z-10">
+                        <div class="flex items-start justify-between gap-4 flex-wrap">
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap mb-2">
+                                    ${job.urgent ? '<span class="job-tag tag-urgent"><i class="fas fa-fire text-xs ml-1"></i>مطلوب عاجل</span>' : ''}
+                                    <span class="job-tag tag-type">${job.type}</span>
+                                    <span class="job-tag ${job.remote === 'عن بُعد' ? 'tag-remote' : 'tag-type'}">${job.remote}</span>
+                                </div>
+                                <h3 class="text-lg font-bold text-gray-900 mb-1 hover:text-emerald-700 transition-colors">${job.title}</h3>
+                                <div class="flex items-center gap-4 text-sm text-gray-500 flex-wrap">
+                                    <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt text-xs text-amber-500"></i>${job.location}</span>
+                                    <span class="flex items-center gap-1"><i class="fas fa-money-bill-wave text-xs text-emerald-500"></i>${job.salary}</span>
+                                    <span class="flex items-center gap-1"><i class="fas fa-clock text-xs text-gray-400"></i>${job.posted}</span>
+                                </div>
+                            </div>
+                            <button class="btn-outline flex-shrink-0" style="padding: 0.5rem 1.25rem; font-size: 0.82rem;" onclick="showToast('تم حفظ الوظيفة في المفضلة')">
+                                <i class="far fa-bookmark"></i>
+                                <span>حفظ</span>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-2 mt-3 flex-wrap">
+                            ${job.tags.map(tag => `<span class="px-2.5 py-1 rounded-lg text-xs bg-gray-50 text-gray-600 border border-gray-100">${tag}</span>`).join('')}
+                        </div>
+                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-gray-100">
+                            <button class="btn-primary" style="padding: 0.55rem 1.5rem; font-size: 0.85rem;" onclick="showToast('تم تقديم طلبك بنجاح')">
+                                <i class="fas fa-paper-plane text-xs"></i>
+                                <span>قدّم الآن</span>
+                            </button>
+                            <span class="text-xs text-gray-400">رقم المرجع: NT-${job.id.toString().padStart(4, '0')}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========= توليد بطاقات التقييمات =========
+        function renderReviews() {
+            const container = document.getElementById('reviewsList');
+            container.innerHTML = reviewsData.map(review => `
+                <div class="review-card">
+                    <div class="flex items-start gap-3">
+                        <img src="https://picsum.photos/seed/${review.avatar}/100/100.jpg" alt="${review.name}" class="review-avatar">
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between flex-wrap gap-2">
+                                <div>
+                                    <h4 class="font-bold text-sm">${review.name}</h4>
+                                    <p class="text-xs text-gray-400">${review.role}</p>
+                                </div>
+                                <span class="text-xs text-gray-400">${review.date}</span>
+                            </div>
+                            <div class="stars-container mt-2">
+                                ${Array.from({length: 5}, (_, i) =>
+                                    `<i class="fas fa-star star ${i < review.rating ? 'filled' : ''}"></i>`
+                                ).join('')}
+                            </div>
+                            <p class="text-sm text-gray-600 mt-3 leading-relaxed">${review.text}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ========= التبويبات =========
+        function switchTab(tabId) {
+            // تحديث أزرار التبويبات
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // تحديث المحتوى
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+
+            // تفعيل أشرطة التقدم في تبويب التقييمات
+            if (tabId === 'reviews') {
+                setTimeout(() => {
+                    document.querySelectorAll('.progress-fill').forEach(bar => {
+                        bar.style.width = bar.dataset.width + '%';
+                    });
+                }, 200);
+            }
+        }
+
+        // ========= فلتر الوظائف =========
+        function filterJobs(category, btn) {
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            renderJobs(category);
+        }
+
+        // ========= الإشعارات =========
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMessage').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ========= المودال =========
+        function openModal() {
+            document.getElementById('contactModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('contactModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+
+        function submitContact(e) {
+            e.preventDefault();
+            closeModal();
+            showToast('تم إرسال رسالتك بنجاح، سنتواصل معك قريباً');
+            e.target.reset();
+        }
+
+        // ========= إغلاق المودال بزر Escape =========
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('contactModal').classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // ========= شريط التنقل عند التمرير =========
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+            lastScroll = window.scrollY;
+        });
+
+        // ========= أنيميشن الأرقام =========
+        function animateCounters() {
+            document.querySelectorAll('.stat-number').forEach(counter => {
+                const target = parseInt(counter.dataset.target);
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+
+                const update = () => {
+                    current += step;
+                    if (current < target) {
+                        counter.textContent = Math.floor(current).toLocaleString('ar-SA');
+                        requestAnimationFrame(update);
+                    } else {
+                        counter.textContent = target.toLocaleString('ar-SA');
+                    }
+                };
+                update();
+            });
+        }
+
+        // ========= الجزيئات المتحركة في الغلاف =========
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.bottom = '-10px';
+                particle.style.animationDuration = (4 + Math.random() * 6) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.width = (3 + Math.random() * 5) + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.opacity = 0.2 + Math.random() * 0.4;
+                container.appendChild(particle);
+            }
+        }
+
+        // ========= مراقب الظهور (IntersectionObserver) =========
+        function setupRevealObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+
+                        // تفعيل العدّاد عند ظهور الإحصائيات
+                        if (entry.target.querySelector('.stat-number')) {
+                            animateCounters();
+                        }
+
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        }
+
+        // ========= تمرير سلس للروابط =========
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // ========= قائمة الموبايل =========
+        function toggleMobileMenu() {
+            showToast('القائمة الجانبية');
+        }
+
+        // ========= التهيئة =========
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            renderJobs();
+            renderReviews();
+            setupRevealObserver();
+        });
+    </script>
+</body>
+</html>

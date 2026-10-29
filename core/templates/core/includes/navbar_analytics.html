@@ -1,0 +1,147 @@
+<header class="glass-card sticky top-0 z-50 shadow-lg bg-white/80 backdrop-blur-md">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <!-- الشعار -->
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">
+                    <i data-lucide="trending-up" class="w-6 h-6 sm:w-8 sm:h-8 text-white"></i>
+                </div>
+                <span class="font-bold text-lg sm:text-xl gradient-text whitespace-nowrap">مرصد اتجاهات سوق العمل</span>
+            </div>
+
+            <!-- زر القائمة للهاتف -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-700">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+
+            <!-- القائمة (تظهر كـ Flex في اللابتوب، ومخفية/منسدلة في الهاتف) -->
+            <div id="nav-menu" class="hidden md:flex flex-col md:flex-row absolute md:relative top-full left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow-lg md:shadow-none items-center gap-4">
+
+                <a href="{% url 'core:student_guidance_analytics' %}" class="text-gray-700 btn hover:text-blue-600 text-sm whitespace-nowrap">
+                    {% trans 'التخصصات الأكثر طلباً' %}
+                </a>
+
+                <a href="{% url 'core:predictive_analytics' %}" class="text-gray-700 btn hover:text-blue-600 text-sm whitespace-nowrap">
+                    {% trans 'التنبؤ بحركة نمو الوظائف' %}
+                </a>
+
+                <button id="reset-filters" onclick="resetFilters()" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto justify-center">
+                    <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                    <span>إعادة ضبط</span>
+                </button>
+
+                <div class="flex items-center gap-2 text-sm text-gray-600 border-t md:border-t-0 pt-2 md:pt-0">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <span id="currentDate"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    // 1. القائمة المنسدلة
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('nav-menu');
+    menuBtn.addEventListener('click', () => {
+        navMenu.classList.toggle('hidden');
+        navMenu.classList.toggle('flex');
+    });
+
+    // 2. إعداد التاريخ
+    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString('ar-SA', dateOptions);
+
+    // 3. التحكم في ظهور زر إعادة الضبط
+    const reset_filter = document.getElementById('reset-filters');
+    if (window.location.pathname.includes('student_guidance_analytics')) {
+        reset_filter.style.display = 'none';
+    }
+
+    // 4. وظيفة إعادة الضبط
+    function resetFilters() {
+        const filters = ['city-filter', 'category-filter', 'year-filter'];
+        filters.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                el.value = '';
+            }
+        });
+        if (typeof applyFilters === 'function') applyFilters();
+    }
+</script>
+
+
+
+<!--    <header class="glass-card sticky top-0 z-50 shadow-lg bg-white/80 backdrop-blur-md">-->
+<!--        <div class="container mx-auto px-4 py-4">-->
+<!--            <div class="flex justify-between items-center">-->
+<!--                <div class="flex items-center gap-3">-->
+<!--                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg">-->
+<!--                        <i data-lucide="trending-up" class="w-8 h-8 text-white"></i>-->
+<!--                    </div>-->
+<!--                    <span class="font-bold text-xl gradient-text">مرصد اتجاهات سوق العمل</span>-->
+<!--                </div>-->
+<!--                <div class="flex items-center gap-4">-->
+<!--                <a href="{% url 'core:student_guidance_analytics' %}"-->
+<!--                   class=" text-gray-700  btn flex dark:text-gray-200 hover:text-blue-600 text-[15px]   dark:hover:text-blue-400 text-[15px]l">-->
+<!--&lt;!&ndash;                     <i data-lucide="trending-up" class="w-6 h-6 mx-3 text-[5px] "></i>&ndash;&gt;-->
+<!--                    {% trans 'التخصصات الأكثر طلباً خلال السنوات القادمة' %}-->
+<!--                </a>-->
+<!--                <a href="{% url 'core:predictive_analytics' %}"-->
+<!--                   class=" text-gray-700 flex btn dark:text-gray-200 hover:text-blue-600 text-[15px] dark:hover:text-blue-400 text-[15px]l">-->
+<!--&lt;!&ndash;                     <i data-lucide="trending-up" class="w-6 h-6 mx-3 text-[5px] "></i>&ndash;&gt;-->
+<!--                    {% trans 'التنبؤ بحركة نمو الوظائف في الأشهر القادمة' %}-->
+<!--                </a>-->
+<!--                    <button id="reset-filters" onclick="resetFilters()" class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">-->
+<!--                        <i data-lucide="refresh-cw" class="w-4 h-4"></i>-->
+<!--                        <span class="hidden sm:inline">إعادة ضبط الفلاتر</span>-->
+<!--                    </button>-->
+<!--                    <div class="flex items-center gap-2 text-sm text-gray-600">-->
+<!--                        <i data-lucide="calendar" class="w-4 h-4"></i>-->
+<!--                        <span id="currentDate"></span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </header>-->
+<!--    <script>-->
+<!--    // إعدادات التاريخ الحالي بالواجهة-->
+<!--    const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };-->
+<!--    const currentDateElem = document.getElementById('currentDate');-->
+<!--    if(currentDateElem) {-->
+<!--        currentDateElem.textContent = new Date().toLocaleDateString('ar-SA', dateOptions);-->
+<!--    }-->
+
+<!--    var reset_filter = document.getElementById('reset-filters');-->
+
+
+<!--    if (window.location.pathname.endsWith('/ar/student_guidance_analytics/')) {-->
+<!--        if (reset_filter) {-->
+<!--            reset_filter.style.display = 'none'; // إخفاء الزر تماماً-->
+<!--        }-->
+<!--    }-->
+<!--    else{-->
+<!--     if (reset_filter) {-->
+<!--            reset_filter.style.display = 'flex'; // إخفاء الزر تماماً-->
+<!--        }-->
+<!--    }-->
+
+
+<!--    function resetFilters() {-->
+
+<!--        if(document.getElementById('city-filter')){-->
+<!--            document.getElementById('city-filter').value = '';-->
+<!--            applyFilters();-->
+<!--         }-->
+<!--        if(document.getElementById('category-filter')){-->
+<!--            document.getElementById('category-filter').value = '';-->
+<!--            applyFilters();-->
+<!--        }-->
+<!--        if(document.getElementById('year-filter')){-->
+<!--               document.getElementById('year-filter').value = '';-->
+<!--               applyFilters();-->
+<!--        }-->
+
+<!--    }-->
+<!--    </script>-->

@@ -1,0 +1,28 @@
+{% extends 'companies/base.html' %}
+
+{% block provider_content %}
+
+<div class="flex  items-center justify-center  px-4 sm:px-6 lg:px-8">
+    <div class=" w-full p-0  rounded-2xl ">
+     <div class="w-full  ">
+        {% back_button   %}
+
+        <h2 class="text-xl font-bold text-center mb-8 text-content">
+              {% trans "Job Application Detail" %}
+        </h2>
+     </div>
+       <div class="w-full space-y-5">
+
+                 <div class=" rounded-xl">
+                     {% job_applicant_detail  job_application %}
+                 </div>
+
+
+       </div>
+    </div>
+
+</div>
+
+
+
+{% endblock  %}

@@ -1,0 +1,114 @@
+<div class="max-w-4xl mx-auto  my-10 px-4">
+    <div class="bg-surface-card rounded-3xl  overflow-hidden  transition-all hover:shadow-2xl">
+<!--bg-gradient-to-r from-indigo-400 to-green-500-->
+        <div class=" p-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex items-center gap-5">
+                    <div class="w-9 h-9 shrink-0">
+                        {% if "." in job_app.avatar %}
+                            <img src="{{ job_app.avatar }}"
+                                 alt="{{ job_app.name }}"
+                                 class="w-9 h-9 rounded-full object-cover border border-stroke-soft shadow-sm"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+
+                            <div class="hidden w-9 h-9 rounded-full items-center justify-center text-white text-[11px] font-bold shadow-sm"
+                                 style="background-color: {{ c.color|default:'#0d7c5f' }};">
+                                {{ job_app.name|slice:":1" }}
+                            </div>
+                        {% else %}
+                            <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-[11px] font-bold shadow-sm"
+                                 style="background-color: {{ c.color|default:'#0d7c5f' }}">
+                               {{ job_app.name|slice:":1" }}
+                            </div>
+                       {% endif %}
+                    </div>
+                    <div>
+                        <h2 class="text-3xl font-bold text-content-muted tracking-tight">{{ job_app.name }}</h2>
+                        <p class="flex items-center gap-2 mt-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            {{ job_app.email }}
+                        </p>
+                    </div>
+                </div>
+<!--                <div class="bg-white/10 backdrop-blur-lg shadow-sm rounded-2xl p-4 text-center min-w-[120px]">-->
+<!--                    <span class="mb-2 block text-xl text-content-muted uppercase font-semibold">درجة المطابقة</span>-->
+<!--                    <span class="text-3xl  font-black ">{{ job_app.match }}%</span>-->
+<!--                </div>-->
+            </div>
+            <div>
+                <h3 class="text-lg font-bold mt-8 mb-4">مهارات المتقدم</h3>
+                <div class="flex-wrap mt-2  bg-surface p-4 border border-stroke rounded-xl pr-5 space-y-2">
+                    {% for skill in job_app.user_skills.all %}
+
+                        {% tag_card skill.name %}
+
+
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="p-8 grid  flex-wrap  grid-cols-1 md:grid-cols-2 gap-8 bg-slate-50/50">
+
+            <div class="space-y-4 ">
+                <h3 class="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
+                    <span class="h-1 w-6  rounded-full"></span>
+                    تفاصيل الوظيفة
+                </h3>
+                <div class="p-5 bg-surface rounded-2xl  shadow-sm">
+                    <p class="mb-2 text-content text-xm">المسمى الوظيفي المطلوب</p>
+                    <p class="text-content font-bold text-lg mt-1">{{ job_app.role }}</p>
+                </div>
+                 <div class="w-full">
+                <h3 class="text-ls font-bold mt-8 mb-4">المهارات المطلوبة</h3>
+                <div class="flex flex-wrap mt-2  bg-surface p-4 border border-stroke rounded-xl pr-5 space-y-2">
+                    {% for skill in job_app.job_skills.all %}
+                        {% tag_card skill.name %}
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xm font-bold uppercase tracking-widest flex items-center gap-2">
+                    <span class="h-1 w-6  rounded-full"></span>
+                    حالة الطلب
+                </h3>
+                <div class="p-5 rounded-2xl bg-surface shadow-sm flex justify-between items-center">
+                    <div>
+                        <p class="mb-2 text-content text-xm">تاريخ التقديم</p>
+                        <p class="text-content font-semibold mt-1">{{ job_app.time }}</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-content text-xm mb-3">الحالة</p>
+                        <span class="px-4 py-1.5  bg-emerald-100 text-emerald-700 rounded-full text-sm font-bold border border-emerald-200">
+                            {{ job_app.status_display }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="px-8 py-6 max-w-[70%]  border-t border-slate-100 flex justify-start gap-3">
+
+             {% if job_app.status != 'accepted' %}
+                 {% url 'companies:job_app_accept' job_app.id as job_app_accept_url %}
+                 {% link-button   url=job_app_accept_url  extra_classes="px-4 text-xl bg-brand text-white" label=_('قبول')   icon='right' %}
+             {% endif %}
+
+             {% if job_app.status != 'rejected'%}
+                {% url 'companies:job_app_reject' job_app.id as job_app_reject_url %}
+                {% link-button   url=job_app_reject_url  extra_classes="px-4 text-xl bg-error text-white" label=_('رفض')   icon='right' %}
+
+            {% endif %}
+
+             <a   href="{% url  'companies:job_applications' %}"  class="px-4 text-xl" >{% trans 'تجاهل' %}</a>
+<!--            <button class="px-6 py-2.5 text-slate-600 font-semibold hover:bg-slate-100 rounded-xl transition-colors">تجاهل</button>-->
+<!--            <button class="px-6 py-2.5 bg-indigo-600 text-white font-bold rounded-xl shadow-lg shadow-indigo-200 hover:bg-indigo-700 transform hover:-translate-y-0.5 transition-all">-->
+<!--                مراجعة السيرة الذاتية-->
+<!--            </button>-->
+        </div>
+    </div>
+</div>

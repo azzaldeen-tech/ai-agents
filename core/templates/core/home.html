@@ -1,0 +1,697 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+
+<div class="bg-gray-50 smooth-scroll">
+    <!-- Navigation -->
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center pt-16 hero-pattern overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-40 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute top-1/2 -left-20 w-80 h-80 bg-secondary-500/10 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-1/4 w-64 h-64 bg-primary-600/5 rounded-full blur-2xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Content -->
+                <div class="text-center lg:text-right">
+                    <div class="inline-flex items-center gap-2 bg-primary-50 text-primary-700 px-4 py-2 rounded-full text-sm font-medium mb-6">
+                        <span class="w-2 h-2 bg-primary-600 rounded-full pulse-ring"></span>
+                        منصة رائدة في تحليل سوق العمل
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
+                        اكتشف <span class="gradient-text">فرصك المهنية</span><br>
+                        مع تحليلات ذكية لسوق العمل
+                    </h1>
+                    <p class="text-lg text-gray-600 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0">
+                        منصة متكاملة تربط بين الباحثين عن عمل وأصحاب الشركات، مع تحليلات دقيقة لاتجاهات سوق العمل، المهارات المطلوبة، والرواتب في مختلف القطاعات.
+                    </p>
+
+                    <!-- Search Box -->
+                    <div class="bg-white p-4 rounded-2xl shadow-xl shadow-gray-200/50 mb-8 max-w-2xl mx-auto lg:mx-0">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="flex-1 relative">
+                                <i data-lucide="search" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                                <input type="text" placeholder="ابحث عن وظيفة، شركة، أو مهارة..."
+                                    class="w-full pr-12 pl-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
+                            </div>
+                            <div class="flex-1 relative">
+                                <i data-lucide="map-pin" class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400"></i>
+                                <select name="city" class="w-full pr-12 pl-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none cursor-pointer">
+                                    <option>جميع المدن</option>
+
+                                    {% for city in cities%}
+                                         <option>{{city}}</option>
+                                    {% endfor %}
+
+                                </select>
+                                <i data-lucide="chevron-down" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"></i>
+                            </div>
+                            <button class="bg-primary-600 hover:bg-primary-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all hover:shadow-lg hover:shadow-primary-500/25 flex items-center justify-center gap-2">
+                                <i data-lucide="search" class="w-5 h-5"></i>
+                                بحث
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex flex-wrap justify-center lg:justify-start gap-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900 counter" data-target="{{active_jobs_count}}">{{active_jobs_count}}</div>
+                            <div class="text-sm text-gray-500">وظيفة متاحة</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900 counter" data-target="{{total_companies}}">{{total_companies}}</div>
+                            <div class="text-sm text-gray-500">شركة مشاركة</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-bold text-gray-900 counter" data-target="{{total_members}}">{{total_members}}</div>
+                            <div class="text-sm text-gray-500">باحث عن عمل</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image/Illustration -->
+                <div class="relative hidden lg:block">
+                    <div class="relative">
+                        <!-- Main Dashboard Preview -->
+                        <div class="glass-card rounded-3xl p-6 shadow-2xl floating">
+                            <img src="http://static.photos/technology/640x480/123" alt="Dashboard Preview" class="rounded-2xl w-full">
+
+                            <!-- Floating Cards -->
+                            <div class="absolute -top-4 -left-4 bg-white rounded-2xl p-4 shadow-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="trending-up" class="w-6 h-6 text-green-600"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">نمو الوظائف</div>
+                                        <div class="text-lg font-bold text-green-600">{{remote_percentage}}%</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="absolute -bottom-4 -right-4 bg-white rounded-2xl p-4 shadow-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="users" class="w-6 h-6 text-primary-600"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-sm text-gray-500">توظيف هذا الشهر</div>
+                                        <div class="text-lg font-bold text-primary-600">{{total_applications_this_month}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">مميزات المنصة</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">كل ما تحتاجه لإدارة مسيرتك المهنية أو توظيف أفضل الكفاءات في مكان واحد</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-primary-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bar-chart-3" class="w-8 h-8 text-primary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">تحليلات ذكية</h3>
+                    <p class="text-gray-600 leading-relaxed">احصل على رؤى عميقة حول اتجاهات سوق العمل، المهارات الأكثر طلباً، والرواتب المتوقعة في مختلف القطاعات.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-secondary-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="target" class="w-8 h-8 text-secondary-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">توظيف ذكي</h3>
+                    <p class="text-gray-600 leading-relaxed">نظام مطابقة متقدم يقترح أفضل المرشحين بناءً على متطلبات الوظيفة والمهارات المطلوبة.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="graduation-cap" class="w-8 h-8 text-purple-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">تطوير المهارات</h3>
+                    <p class="text-gray-600 leading-relaxed">اكتشف المهارات المطلوبة في مجالك واحصل على توصيات مخصصة للدورات التدريبية والشهادات.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="briefcase" class="w-8 h-8 text-orange-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">آلاف الفرص</h3>
+                    <p class="text-gray-600 leading-relaxed">وصول فوري لآلاف الوظائف في مختلف القطاعات من شركات رائدة في المنطقة.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="shield-check" class="w-8 h-8 text-pink-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">شركات موثوقة</h3>
+                    <p class="text-gray-600 leading-relaxed">جميع الشركات على المنصة مُتحققة وموثقة لضمان تجربة توظيف آمنة وموثوقة.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="group p-8 rounded-3xl bg-gray-50 hover:bg-white hover:shadow-xl transition-all duration-300 border border-transparent hover:border-gray-100">
+                    <div class="w-16 h-16 bg-cyan-100 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="bell" class="w-8 h-8 text-cyan-600"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">تنبيهات فورية</h3>
+                    <p class="text-gray-600 leading-relaxed">احصل على إشعارات فورية للوظائف المناسبة والتحديثات المهمة في مجال تخصصك.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analytics Dashboard Preview -->
+    <section id="analytics" class="py-24 bg-gradient-to-br from-gray-900 via-primary-900 to-primary-800 text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">لوحة تحليلات متكاملة</h2>
+                    <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                        احصل على رؤى شاملة حول سوق العمل مع لوحة تحليلات تفاعلية تعرض أهم المؤشرات والاتجاهات في الوقت الفعلي.
+                    </p>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="line-chart" class="w-6 h-6 text-secondary-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-1">مؤشرات سوق العمل</h4>
+                                <p class="text-gray-800">تتبع معدلات التوظيف، البطالة، والطلب على المهارات في مختلف القطاعات</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="pie-chart" class="w-6 h-6 text-secondary-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-1">توزيع الرواتب</h4>
+                                <p class="text-gray-800">مقارنة الرواتب حسب المسمى الوظيفي، الخبرة، والموقع الجغرافي</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="activity" class="w-6 h-6 text-secondary-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg mb-1">توقعات المستقبل</h4>
+                                <p class="text-gray-800">تنبؤات مدعومة بالذكاء الاصطناعي لاتجاهات سوق العمل القادمة</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'core:labor_market_trends' %}" class="mt-10 bg-white w-2/4  text-gray-900 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors flex items-center gap-2 text-center">
+                        <span class="pr-8">استكشف التحليلات</span>
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </a>
+                </div>
+                {% load static %}
+                <div class="relative">
+                    <div class="bg-white/10 backdrop-blur-xl rounded-3xl p-6 border border-white/20">
+                        <img src="{% static 'img/anylisis_image.png' %}" alt="Analytics Dashboard"
+                             class="rounded-2xl w-full">
+
+                        <!-- Stats Overlay -->
+                        <div class="grid grid-cols-3 gap-4 mt-6">
+                            <div class="bg-white/10 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-secondary-400">{{remote_percentage}} %</div>
+                                <div class="text-sm text-gray-800">نمو التوظيف</div>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-secondary-400">{{active_jobs_count}}</div>
+                                <div class="text-sm text-gray-800">وظيفة جديدة</div>
+                            </div>
+                            <div class="bg-white/10 rounded-xl p-4 text-center">
+                                <div class="text-2xl font-bold text-secondary-400">{{total_companies}}</div>
+                                <div class="text-sm text-gray-800">شركة نشطة</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Jobs Section -->
+    <section id="jobs" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">أحدث الوظائف</h2>
+                    <p class="text-lg text-gray-600">فرص عمل مميزة من شركات رائدة في المنطقة</p>
+                </div>
+                <a href="{% url 'core:jobs_explore' %}" class="text-primary-600 font-semibold flex items-center gap-2 hover:gap-3 transition-all mt-4 md:mt-0">
+                    عرض جميع الوظائف
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </a>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Job Card 1 -->
+                {% for job in get_jobs %}
+                 <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center">
+                            <i data-lucide="building-2" class="w-7 h-7 text-blue-600"></i>
+                        </div>
+                        <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">{{job.get_employment_type_display}}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">{{job.title}}</h3>
+                    <p class="text-gray-500 text-sm mb-4">{{ job.company}}</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+                        <span class="flex items-center text-gray-400 gap-1">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            {{ job.city }}
+                        </span>
+                        <span class="flex items-center gap-1">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                           منذ {{ job.created_at|timesince }}
+                        </span>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                        <span class="text-primary-600 font-bold"> {{job.min_salary}} -  {{job.max_salary}} ر.س</span>
+                        <button class="text-gray-400 hover:text-primary-600 transition-colors">
+                            <i data-lucide="bookmark" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+
+<!--                &lt;!&ndash; Job Card 2 &ndash;&gt;-->
+<!--                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">-->
+<!--                    <div class="flex items-start justify-between mb-4">-->
+<!--                        <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="palette" class="w-7 h-7 text-purple-600"></i>-->
+<!--                        </div>-->
+<!--                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">عن بعد</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">مصمم UX/UI</h3>-->
+<!--                    <p class="text-gray-500 text-sm mb-4">استوديو الإبداع الرقمي</p>-->
+<!--                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="map-pin" class="w-4 h-4"></i>-->
+<!--                            دبي-->
+<!--                        </span>-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="clock" class="w-4 h-4"></i>-->
+<!--                            منذ 3 أيام-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">-->
+<!--                        <span class="text-primary-600 font-bold">18,000 - 25,000 ر.س</span>-->
+<!--                        <button class="text-gray-400 hover:text-primary-600 transition-colors">-->
+<!--                            <i data-lucide="bookmark" class="w-5 h-5"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Job Card 3 &ndash;&gt;-->
+<!--                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">-->
+<!--                    <div class="flex items-start justify-between mb-4">-->
+<!--                        <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="trending-up" class="w-7 h-7 text-green-600"></i>-->
+<!--                        </div>-->
+<!--                        <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">دوام كامل</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">مدير تسويق رقمي</h3>-->
+<!--                    <p class="text-gray-500 text-sm mb-4">مجموعة الأعمال المتكاملة</p>-->
+<!--                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="map-pin" class="w-4 h-4"></i>-->
+<!--                            جدة-->
+<!--                        </span>-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="clock" class="w-4 h-4"></i>-->
+<!--                            منذ أسبوع-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">-->
+<!--                        <span class="text-primary-600 font-bold">20,000 - 30,000 ر.س</span>-->
+<!--                        <button class="text-gray-400 hover:text-primary-600 transition-colors">-->
+<!--                            <i data-lucide="bookmark" class="w-5 h-5"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Job Card 4 &ndash;&gt;-->
+<!--                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">-->
+<!--                    <div class="flex items-start justify-between mb-4">-->
+<!--                        <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="database" class="w-7 h-7 text-orange-600"></i>-->
+<!--                        </div>-->
+<!--                        <span class="bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-sm font-medium">عقد</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">محلل بيانات كبير</h3>-->
+<!--                    <p class="text-gray-500 text-sm mb-4">البنك الدولي</p>-->
+<!--                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="map-pin" class="w-4 h-4"></i>-->
+<!--                            أبوظبي-->
+<!--                        </span>-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="clock" class="w-4 h-4"></i>-->
+<!--                            منذ 5 أيام-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">-->
+<!--                        <span class="text-primary-600 font-bold">35,000 - 50,000 ر.س</span>-->
+<!--                        <button class="text-gray-400 hover:text-primary-600 transition-colors">-->
+<!--                            <i data-lucide="bookmark" class="w-5 h-5"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Job Card 5 &ndash;&gt;-->
+<!--                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">-->
+<!--                    <div class="flex items-start justify-between mb-4">-->
+<!--                        <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="heart-pulse" class="w-7 h-7 text-pink-600"></i>-->
+<!--                        </div>-->
+<!--                        <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">دوام كامل</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">مدير موارد بشرية</h3>-->
+<!--                    <p class="text-gray-500 text-sm mb-4">المركز الطبي المتخصص</p>-->
+<!--                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="map-pin" class="w-4 h-4"></i>-->
+<!--                            الدمام-->
+<!--                        </span>-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="clock" class="w-4 h-4"></i>-->
+<!--                            منذ أسبوعين-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">-->
+<!--                        <span class="text-primary-600 font-bold">22,000 - 28,000 ر.س</span>-->
+<!--                        <button class="text-gray-400 hover:text-primary-600 transition-colors">-->
+<!--                            <i data-lucide="bookmark" class="w-5 h-5"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Job Card 6 &ndash;&gt;-->
+<!--                <div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">-->
+<!--                    <div class="flex items-start justify-between mb-4">-->
+<!--                        <div class="w-14 h-14 bg-cyan-100 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="cpu" class="w-7 h-7 text-cyan-600"></i>-->
+<!--                        </div>-->
+<!--                        <span class="bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">عن بعد</span>-->
+<!--                    </div>-->
+<!--                    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">مهندس ذكاء اصطناعي</h3>-->
+<!--                    <p class="text-gray-500 text-sm mb-4">مختبرات الابتكار التقني</p>-->
+<!--                    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="map-pin" class="w-4 h-4"></i>-->
+<!--                            الكويت-->
+<!--                        </span>-->
+<!--                        <span class="flex items-center gap-1">-->
+<!--                            <i data-lucide="clock" class="w-4 h-4"></i>-->
+<!--                            منذ 3 أيام-->
+<!--                        </span>-->
+<!--                    </div>-->
+<!--                    <div class="flex items-center justify-between pt-4 border-t border-gray-100">-->
+<!--                        <span class="text-primary-600 font-bold">40,000 - 60,000 ر.س</span>-->
+<!--                        <button class="text-gray-400 hover:text-primary-600 transition-colors">-->
+<!--                            <i data-lucide="bookmark" class="w-5 h-5"></i>-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Companies -->
+    <section id="companies" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">الشركات الرائدة</h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">تعاون مع أفضل الشركات في المنطقة</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+
+                {% for company in get_companies %}
+                    <div class="flex flex-col items-center group cursor-pointer">
+                        <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">
+                            {% if company.get_logo_url %}
+                                <img src="{{ company.get_logo_url }}" class="w-10 h-10" />
+                            {% else  %}
+                                 <i data-lucide="building" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>
+                            {% endif  %}
+                        </div>
+                        <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">{{company.name}}</span>
+                        <span class="text-xs text-gray-400">120+ وظيفة</span>
+                    </div>
+                {% endfor %}
+
+<!--                <div class="flex flex-col items-center group cursor-pointer">-->
+<!--                    <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">-->
+<!--                        <i data-lucide="landmark" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>-->
+<!--                    </div>-->
+<!--                    <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">سابك</span>-->
+<!--                    <span class="text-xs text-gray-400">85+ وظيفة</span>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col items-center group cursor-pointer">-->
+<!--                    <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">-->
+<!--                        <i data-lucide="smartphone" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>-->
+<!--                    </div>-->
+<!--                    <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">STC</span>-->
+<!--                    <span class="text-xs text-gray-400">95+ وظيفة</span>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col items-center group cursor-pointer">-->
+<!--                    <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">-->
+<!--                        <i data-lucide="plane" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>-->
+<!--                    </div>-->
+<!--                    <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">الخطوط السعودية</span>-->
+<!--                    <span class="text-xs text-gray-400">60+ وظيفة</span>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col items-center group cursor-pointer">-->
+<!--                    <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">-->
+<!--                        <i data-lucide="shopping-bag" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>-->
+<!--                    </div>-->
+<!--                    <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">المراعي</span>-->
+<!--                    <span class="text-xs text-gray-400">45+ وظيفة</span>-->
+<!--                </div>-->
+<!--                <div class="flex flex-col items-center group cursor-pointer">-->
+<!--                    <div class="w-20 h-20 bg-gray-50 rounded-2xl flex items-center justify-center mb-3 group-hover:shadow-lg transition-all group-hover:-translate-y-1">-->
+<!--                        <i data-lucide="zap" class="w-10 h-10 text-gray-400 group-hover:text-primary-600 transition-colors"></i>-->
+<!--                    </div>-->
+<!--                    <span class="text-sm font-medium text-gray-600 group-hover:text-primary-600 transition-colors">ACWA Power</span>-->
+<!--                    <span class="text-xs text-gray-400">70+ وظيفة</span>-->
+<!--                </div>-->
+            </div>
+
+            <div class="mt-16 text-center">
+                <a href="{% url 'core:companies_explore' %}" class="bg-brand text-white px-8 py-4 rounded-xl font-semibold hover:bg-gray-800 transition-colors inline-flex items-center gap-2">
+                    عرض جميع الشركات
+                    <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 bg-gradient-to-r from-primary-600 to-primary-700 relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-white/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-content mb-6">ابدأ رحلتك المهنية اليوم</h2>
+            <p class="text-xl text-primary-100 mb-10 max-w-2xl mx-auto">
+                انضم لأكثر من {{total_members }} باحث عن عمل واستفد من تحليلاتنا الذكية للوصول إلى فرصتك المثالية
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'accounts:select_account_type'%}" class="bg-brand text-white px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
+                        إنشاء حساب مجاني
+                        <i data-lucide="user-plus" class="w-5 h-5"></i>
+                    </a>
+                {% endif %}
+                <button class="bg-primary-500 text-white px-8 py-4 rounded-xl font-bold hover:bg-primary-400 transition-colors border border-primary-400 flex items-center justify-center gap-2">
+                    للشركات - انشر وظيفة
+                    <i data-lucide="briefcase" class="w-5 h-5"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+<!--    &lt;!&ndash; Footer &ndash;&gt;-->
+<!--    <footer class="bg-gray-900 text-gray-300 py-16">-->
+<!--        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">-->
+<!--            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">-->
+<!--                &lt;!&ndash; Brand &ndash;&gt;-->
+<!--                <div>-->
+<!--                    <div class="flex items-center gap-2 mb-6">-->
+<!--                        <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">-->
+<!--                            <i data-lucide="trending-up" class="w-6 h-6 text-white"></i>-->
+<!--                        </div>-->
+<!--                        <span class="text-xl font-bold text-white">توظيف</span>-->
+<!--                    </div>-->
+<!--                    <p class="text-gray-400 mb-6 leading-relaxed">-->
+<!--                        منصة متكاملة لتحليل اتجاهات سوق العمل وربط الباحثين عن عمل مع أفضل الفرص المهنية.-->
+<!--                    </p>-->
+<!--                    <div class="flex gap-4">-->
+<!--                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-primary-600 transition-colors">-->
+<!--                            <i data-lucide="twitter" class="w-5 h-5"></i>-->
+<!--                        </a>-->
+<!--                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-primary-600 transition-colors">-->
+<!--                            <i data-lucide="linkedin" class="w-5 h-5"></i>-->
+<!--                        </a>-->
+<!--                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-xl flex items-center justify-center hover:bg-primary-600 transition-colors">-->
+<!--                            <i data-lucide="instagram" class="w-5 h-5"></i>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Links &ndash;&gt;-->
+<!--                <div>-->
+<!--                    <h4 class="text-white font-bold mb-6">للباحثين عن عمل</h4>-->
+<!--                    <ul class="space-y-3">-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">البحث عن وظائف</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">تصفح الشركات</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">الرواتب والتحليلات</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">نصائح مهنية</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">التعلم والتطوير</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <h4 class="text-white font-bold mb-6">لأصحاب الشركات</h4>-->
+<!--                    <ul class="space-y-3">-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">نشر وظيفة</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">البحث عن مرشحين</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">حلول التوظيف</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">أسعار الباقات</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">الشراكات</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+<!--                <div>-->
+<!--                    <h4 class="text-white font-bold mb-6">الدعم</h4>-->
+<!--                    <ul class="space-y-3">-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">مركز المساعدة</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">تواصل معنا</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">الشروط والأحكام</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">سياسة الخصوصية</a></li>-->
+<!--                        <li><a href="#" class="hover:text-white transition-colors">الأسئلة الشائعة</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">-->
+<!--                <p class="text-sm text-gray-500">© 2024 توظيف. جميع الحقوق محفوظة.</p>-->
+<!--                <div class="flex items-center gap-6 text-sm text-gray-500">-->
+<!--                    <span>اللغة:</span>-->
+<!--                    <button class="text-white font-medium">العربية</button>-->
+<!--                    <button class="hover:text-white transition-colors">English</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </footer>-->
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-md');
+            } else {
+                navbar.classList.remove('shadow-md');
+            }
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const animateCounter = (counter) => {
+            const target = parseInt(counter.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                    counter.textContent = Math.floor(current).toLocaleString('ar-SA');
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target.toLocaleString('ar-SA');
+                }
+            };
+
+            updateCounter();
+        };
+
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        counters.forEach(counter => observer.observe(counter));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    document.getElementById('mobileMenu').classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</div>
+
+
+{% endblock %}

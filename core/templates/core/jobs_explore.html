@@ -1,0 +1,314 @@
+
+{% extends 'core/base.html' %}
+
+{% block content %}
+<!-- المحتوى الرئيسي للمنصة -->
+    <div class=" w-full mx-auto p-4 md:p-6 grow flex flex-col gap-6">
+
+        <!-- قسم العناوين والبحث السريع العلوي -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-l from-blue-600 to-indigo-700 rounded-3xl p-6 md:p-8 text-white shadow-xl shadow-blue-100">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-black mb-2">استكشف مستقبلك المهني  🚀</h1>
+                <p class="text-blue-100 text-sm md:text-base">ابحث بين مئات الوظائف المتاحة وحلل متطلبات المهارات فورياً.</p>
+            </div>
+
+            <!-- محرك البحث السريع -->
+            <div class="w-full md:w-96 relative">
+                <input type="text" id="searchBar" onkeyup="filterJobs()" placeholder="ابحث بالمسمى الوظيفي، الشركة، أو المهارة..."
+                       class="input input-bordered w-full pr-12 pl-4 text-gray-800 bg-white focus:outline-hidden border-none shadow-md rounded-xl" />
+                <i data-lucide="search" class="w-5 h-5 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2"></i>
+            </div>
+        </div>
+
+        <!-- نظام التقسيم: الفلاتر الجانبية + كروت النتائج -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+
+            <!-- لوحة الفلاتر الجانبية (Sidebar Filters) -->
+            <aside class="glass-card rounded-2xl p-5 flex flex-col gap-6 lg:sticky lg:top-24">
+                <div class="flex justify-between items-center border-b border-gray-100 pb-3">
+                    <h2 class="font-bold text-gray-800 flex items-center gap-2">
+                        <i data-lucide="sliders-horizontal" class="w-5 h-5 text-blue-600"></i>
+                        تخصيص البحث
+                    </h2>
+                    <button onclick="resetFilters()" class="text-xs text-blue-600 hover:underline font-medium">إعادة تعيين</button>
+                </div>
+
+                <!-- فلتر: قطاع الوظيفة -->
+                <div>
+                    <label class="label font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">مجال العمل / القطاع</label>
+                    <select id="filterCategory" onchange="filterJobs()" class="select select-bordered w-full rounded-xl bg-slate-50 border-gray-200 focus:outline-hidden">
+                        <option value="all">كل القطاعات المتاحة</option>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% empty %}
+                            <option value="tech">تقنية المعلومات</option>
+                            <option value="finance">الخدمات المالية</option>
+                            <option value="marketing">التسويق والمبيعات</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- فلتر: نوع الدوام -->
+                <div>
+                    <label class="label font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">نوع التوظيف</label>
+                    <div class="flex flex-col gap-2">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" name="employment_type" value="full-time" onchange="filterJobs()" class="checkbox checkbox-primary checkbox-sm rounded-md" />
+                            <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">دوام كامل</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" name="employment_type" value="part-time" onchange="filterJobs()" class="checkbox checkbox-primary checkbox-sm rounded-md" />
+                            <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">دوام جزئي</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" name="employment_type" value="remote" onchange="filterJobs()" class="checkbox checkbox-primary checkbox-sm rounded-md" />
+                            <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">عمل عن بعد</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="checkbox" name="employment_type" value="contract" onchange="filterJobs()" class="checkbox checkbox-primary checkbox-sm rounded-md" />
+                            <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">عقود مؤقتة</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- فلتر: مستوى الخبرة -->
+                <div>
+                    <label class="label font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">مستوى الخبرة</label>
+                    <div class="flex flex-col gap-2">
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="experience_level" value="all" checked onchange="filterJobs()" class="radio radio-primary radio-sm" />
+                            <span class="text-sm text-gray-600">الكل</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="experience_level" value="entry" onchange="filterJobs()" class="radio radio-primary radio-sm" />
+                            <span class="text-sm text-gray-600">مبتدئ (Entry)</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="experience_level" value="mid" onchange="filterJobs()" class="radio radio-primary radio-sm" />
+                            <span class="text-sm text-gray-600">متوسط خبرة (Mid)</span>
+                        </label>
+                        <label class="flex items-center gap-3 cursor-pointer group">
+                            <input type="radio" name="experience_level" value="senior" onchange="filterJobs()" class="radio radio-primary radio-sm" />
+                            <span class="text-sm text-gray-600">خبير (Senior)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- فلتر: الراتب المتوقع -->
+                <div>
+                    <label class="label font-bold text-xs text-gray-500 uppercase tracking-wider mb-1">الحد الأدنى للراتب</label>
+                    <div class="flex items-center gap-2">
+                        <input type="range" id="salaryRange" min="0" max="25000" step="1000" value="0" oninput="updateSalaryLabel(this.value)" onchange="filterJobs()" class="range range-primary range-xs grow" />
+                    </div>
+                    <div class="flex justify-between text-xs text-gray-400 mt-1">
+                        <span id="salaryLabel">أي راتب</span>
+                        <span>25,000+ ر.س</span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- قسم كروت الوظائف والمخرجات -->
+            <div class="lg:col-span-3 flex flex-col gap-4">
+
+                <!-- بار التحكم الإحصائي الفوري -->
+                <div class="flex justify-between items-center px-2">
+                    <p class="text-sm text-gray-500 font-medium">تم العثور على <span id="jobsCount" class="text-blue-600 font-bold">0</span> فرصة وظيفية مطابقة</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-400">
+                        <span>ترتيب حسب:</span>
+                        <select class="select select-ghost select-xs text-gray-600 font-bold focus:outline-hidden">
+                            <option>الأحدث نشراً</option>
+                            <option>الأعلى راتباً</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- حاوية قائمة الكروت الديناميكية (Container) -->
+                <div id="jobsGrid" class="grid grid-cols-1 gap-4">
+                    <!-- سيتم توليد كروت الوظائف حياً عبر الجافاسكريبت أو الـ Loop القادم من دجانجو -->
+                </div>
+
+                <!-- رسالة تنبيهية عند عدم تطابق أي فلتر -->
+                <div id="noResults" class="hidden glass-card rounded-2xl p-12 text-center flex flex-col items-center justify-center gap-3">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center text-gray-400">
+                        <i data-lucide="search-code" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-700 text-lg">لم نجد أي نتائج تطابق فلاتر البحث الحالية</h3>
+                    <p class="text-gray-400 text-sm max-w-sm">حاول تغيير الكلمات الدلالية للبحث أو قم بتخفيف قيود فلاتر الدوام والخبرة.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- محرك التحكم بالجافاسكريبت والبيانات الحية -->
+    <script>
+    // 1. استقبال البيانات وتفسيرها من جيسون دجانجو مع وضع مصفوفة فارغة كاحتياط
+    const rawJobs = JSON.parse('{{ jobs_json|safe }}' || '[]');
+    const jobsList = rawJobs.length > 0 ? rawJobs : [];
+
+    // دالة عرض وتوليد الكروت في الواجهة
+    function renderJobs(jobs) {
+        const grid = document.getElementById('jobsGrid');
+        const noResults = document.getElementById('noResults');
+        const countBadge = document.getElementById('jobsCount');
+
+        grid.innerHTML = '';
+        countBadge.textContent = jobs.length;
+
+        if (jobs.length === 0) {
+            noResults.classList.remove('hidden');
+            return;
+        } else {
+            noResults.classList.add('hidden');
+        }
+
+        // مخرجات نصوص نوع التوظيف والخبرة بالعربية
+        const empTranslations = { 'full-time': 'دوام كامل', 'part-time': 'دوام جزئي', 'remote': 'عن بعد', 'contract': 'عقد' };
+        const expTranslations = { 'entry': 'مبتدئ', 'mid': 'متوسط خبرة', 'senior': 'خبير' };
+
+        jobs.forEach(job => {
+            const skillsHtml = job.required_skills.map(skill =>
+                `<span class="badge badge-neutral badge-sm bg-slate-100 border-none text-slate-600 rounded-md py-2.5 px-3 font-medium">${skill}</span>`
+            ).join(' ');
+
+            // تفادي انهيار الـ String التلقائي في حال كانت بعض الرواتب غير محددة (Null)
+            const minSalaryFormatted = job.min_salary ? parseInt(job.min_salary).toLocaleString() : 'غير محدد';
+            const maxSalaryFormatted = job.max_salary ? parseInt(job.max_salary).toLocaleString() : 'غير محدد';
+
+            // 2. صياغة وتحديد الزر بناءً على حالة التقديم الممررة من السيرفر (is_applied)
+            let actionButtonHtml = '';
+
+              if(!job.is_applied) {
+
+                actionButtonHtml = `
+                    <a href="${job.job_join_url}" class="btn bg-brand text-white btn-sm text-[12px] rounded-xl px-5 shadow-xs w-full sm:w-auto">
+                        تقديم
+                    </a>
+                `;
+            }
+            else {
+                actionButtonHtml = `
+                    <a href="${job.job_cancel_url}" class="btn btn-error text-white btn-sm text-[12px] rounded-xl px-5 shadow-xs w-full sm:w-auto">
+                        إلغاء التقديم
+                    </a>
+                `;
+            }
+
+
+            const cardHtml = `
+                <div class="glass-card rounded-2xl p-5 hover:shadow-lg transition-all duration-300 border-l-4 border-l-blue-500 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div class="flex flex-col gap-2 grow">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="badge badge-primary badge-sm rounded-md font-bold">${empTranslations[job.employment_type] || job.employment_type}</span>
+                            <span class="badge badge-secondary badge-outline badge-sm rounded-md font-bold">${expTranslations[job.experience_level] || job.experience_level}</span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1 font-medium"><i data-lucide="calendar" class="w-3 h-3"></i>
+                             ${job.created_at}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-800 hover:text-blue-600 cursor-pointer transition-colors">${job.title}</h3>
+                        <p class="text-sm text-gray-500 font-medium flex items-center gap-1">
+                            <i data-lucide="building" class="w-4 h-4 text-gray-400"></i> ${job.company}
+                            <span class="text-gray-300 mx-1">|</span>
+                            <i data-lucide="map-pin" class="w-4 h-4 text-gray-400"></i> ${job.location}
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mt-2">
+                            ${skillsHtml}
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row md:flex-col items-end gap-3 w-full md:w-auto border-t border-gray-100 md:border-none pt-3 md:pt-0">
+                        <div class="text-right grow sm:text-right md:text-left">
+                            <span class="text-xs text-gray-400 block font-medium">الراتب المتوقع</span>
+                            <span class="text-base font-black text-green-600">${minSalaryFormatted} - ${maxSalaryFormatted} <span class="text-xs font-normal text-gray-500">ر.س</span></span>
+                        </div>
+
+                        <!-- حاوية الزر الديناميكي المصلحة لتتناسب مع التصميم -->
+                        <div class="text-center w-full sm:w-auto" style="min-width: 100px;">
+                            ${actionButtonHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.insertAdjacentHTML('beforeend', cardHtml);
+        });
+
+        lucide.createIcons();
+    }
+
+    // دالة الفلترة الذكية (تجمع البحث النصي والخيارات معاً)
+    function filterJobs() {
+        const searchQuery = document.getElementById('searchBar').value.toLowerCase();
+        const selectedCategory = document.getElementById('filterCategory').value;
+        const salaryInput = document.getElementById('salaryRange');
+        const selectedSalary = salaryInput ? parseInt(salaryInput.value) : 0;
+
+        // جلب أنواع الدوام المحددة
+        const checkedEmpTypes = Array.from(document.querySelectorAll('input[name="employment_type"]:checked')).map(el => el.value);
+
+        // جلب مستوى الخبرة المحدد
+        const selectedExpElem = document.querySelector('input[name="experience_level"]:checked');
+        const selectedExp = selectedExpElem ? selectedExpElem.value : 'all';
+
+        const filtered = jobsList.filter(job => {
+            // 1. فحص البحث النصي
+            const matchesSearch = job.title.toLowerCase().includes(searchQuery) ||
+                                  job.company.toLowerCase().includes(searchQuery) ||
+                                  job.required_skills.some(s => s.toLowerCase().includes(searchQuery));
+
+            // 2. فحص القطاع
+            const matchesCategory = selectedCategory === 'all' || job.category == selectedCategory;
+
+            // 3. فحص نوع التوظيف
+            const matchesEmpType = checkedEmpTypes.length === 0 || checkedEmpTypes.includes(job.employment_type);
+
+            // 4. فحص مستوى الخبرة
+            const matchesExperience = selectedExp === 'all' || job.experience_level === selectedExp;
+
+            // 5. تعديل فحص الراتب: إذا كان المؤشر عند الصفر، يتم تخطي الفحص وعرض الجميع
+            const matchesSalary = selectedSalary === 0 || (job.max_salary >= selectedSalary);
+
+            return matchesSearch && matchesCategory && matchesEmpType && matchesExperience && matchesSalary;
+        });
+
+        renderJobs(filtered);
+    }
+
+    // تحديث نص عرض الراتب أثناء السحب
+    function updateSalaryLabel(val) {
+        const label = document.getElementById('salaryLabel');
+        if(!label) return;
+        if(parseInt(val) === 0) {
+            label.textContent = "أي راتب";
+        } else {
+            label.textContent = `يبدأ من ${parseInt(val).toLocaleString()} ر.س`;
+        }
+    }
+
+    // إعادة تعيين كافة الفلاتر
+    function resetFilters() {
+        document.getElementById('searchBar').value = '';
+        document.getElementById('filterCategory').value = 'all';
+        const salaryRange = document.getElementById('salaryRange');
+        if(salaryRange) salaryRange.value = 0;
+        updateSalaryLabel(0);
+
+        document.querySelectorAll('input[name="employment_type"]:checked').forEach(el => el.checked = false);
+        const defaultRadio = document.querySelector('input[name="experience_level"][value="all"]');
+        if(defaultRadio) defaultRadio.checked = true;
+
+        renderJobs(jobsList);
+    }
+
+    // التهيئة التلقائية المباشرة عند التحميل الأول
+    window.addEventListener('DOMContentLoaded', () => {
+        const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateElem = document.getElementById('currentDate');
+        if(dateElem) {
+            dateElem.textContent = new Date().toLocaleDateString('ar-SA', dateOptions);
+        }
+
+        // استدعاء عرض الكل مباشرة فور اكتمال تحميل الصفحة
+        renderJobs(jobsList);
+    });
+</script>
+
+{% endblock %}

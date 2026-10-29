@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<div class=" mx-auto px-4 py-8">
+
+       <!-- Header -->
+    {% include 'core/includes/navbar_analytics.html' %}
+
+    <!-- رأس الصفحة الإرشادي -->
+    <div class="mb-8 text-center bg-brand text-white rounded-2xl p-8 shadow-md">
+        <h2 class="text-2xl font-bold mb-2">🔮 بوصلة المستقبل المهني للطلاب</h2>
+        <p class="text-purple-100 text-sm">نحلل لك سلوك السوق الحالي بواسطة الذكاء الاصطناعي لنرشدك إلى التخصصات الأكثر نمواً وطلباً خلال الـ 3 سنوات القادمة</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- القسم الأول: الرسم البياني للتخصصات الواعدة -->
+        <div class="lg:col-span-2 glass-card rounded-2xl p-6 bg-white shadow-sm">
+            <h3 class="text-md font-bold text-gray-800 mb-4">📊 ترتيب التخصصات حسب حجم الطلب المتوقع (2026 - 2029)</h3>
+            <div class="h-80">
+                <canvas id="studentFutureChart"></canvas>
+            </div>
+        </div>
+
+        <!-- القسم الثاني: بطاقات النصائح السريعة للمهارات -->
+        <div class="glass-card rounded-2xl p-6 bg-white shadow-sm flex flex-col gap-4">
+            <h3 class="text-md font-bold text-gray-800 mb-2">💡 مهارات حرجة نوصيك بتعلمها الآن:</h3>
+
+            {% for career in top_careers %}
+            <div class="p-4 rounded-xl bg-gray-50 border border-gray-100 hover:border-purple-300 transition-all">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-sm text-gray-800">{{ career.category_name }}</span>
+                    <span class="text-xs bg-purple-100 text-purple-700 font-bold px-2 py-0.5 rounded-full">واعد جداً</span>
+                </div>
+                <p class="text-xs text-gray-500 mb-2">المهارات الأكثر طلباً في هذا التخصص:</p>
+                <div class="flex flex-wrap gap-1">
+                    {% for skill in career.top_skills %}
+                        <span class="bg-gray-200 text-gray-700 text-[10px] px-2 py-1 rounded">{{ skill }}</span>
+                    {% empty %}
+                        <span class="bg-gray-200 text-gray-700 text-[10px] px-2 py-1 rounded">التفكير التحليلي</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ctx = document.getElementById('studentFutureChart')?.getContext('2d');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar', // نوع الرسم أعمدة أفقية لتسهيل قراءة أسماء التخصصات
+                data: {
+                    labels: {{ student_chart_labels|safe }},
+                    datasets: [{
+                        label: 'مؤشر الطلب المستقبلي التقديري',
+                        data: {{ student_chart_data|safe }},
+                        backgroundColor: '#8b5cf6',
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // جعل الأعمدة أفقية لجمالية التصميم
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    });
+</script>
+{% endblock %}

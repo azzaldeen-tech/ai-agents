@@ -1,0 +1,28 @@
+<div class="interview-item flex items-start gap-3 py-3 px-2 rounded-xl
+ transition-all hover:bg-surface-card cursor-pointer"
+     onclick="showToast('فتح تفاصيل مقابلة {{ iv.candidate }}','info')">
+
+    <div class="w-10 h-10 rounded-xl bg-raised flex items-center justify-center text-[13px] shrink-0 mt-0.5">
+        <i class="fas {{ iv.icon }} "></i>
+    </div>
+
+    <div class="flex-1 min-w-0">
+        <div class="text-[13px] font-semibold mb-0.5 text-fg">{{ iv.candidate }}</div>
+        <div class="text-[11px] text-fg-muted mb-1.5">{{ iv.role }}</div>
+
+        <div class="flex items-center gap-2">
+            <span class="text-[10px] font-medium px-2 py-0.5 rounded-md {{ color_class }}">
+                {{ iv.type }}
+            </span>
+            <span class="text-[10px] text-fg-muted">
+                <i class="fas fa-clock text-[8px] ml-1"></i>{{ iv.time }}
+            </span>
+        </div>
+    </div>
+
+    <button class="w-8 h-8 rounded-lg bg-raised text-fg-muted flex items-center justify-center text-[11px] hover:bg-brand-light hover:text-brand transition-all shrink-0 mt-1 cursor-pointer"
+            onclick="event.stopPropagation(); showToast('تم بدء المقابلة مع {{ iv.candidate }}','ok')"
+            aria-label="بدء المقابلة">
+        <i class="fas fa-play"></i>
+    </button>
+</div>

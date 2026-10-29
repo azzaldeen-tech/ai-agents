@@ -1,0 +1,34 @@
+{% extends 'companies/base.html' %}
+
+{% block provider_content %}
+
+<div class="flex  items-center justify-center  px-4 sm:px-6 lg:px-8">
+    <div class=" w-full px-8  rounded-2xl ">
+     <div class="w-full  ">
+        {% back_button  url='companies:dashboard' %}
+
+        <h2 class="text-xl font-bold text-center mb-8 text-content">
+              {% trans "Advertised Jobs" %}
+        </h2>
+     </div>
+
+
+       <div class="w-full space-y-5">
+           {% if jobs  %}
+               {% for job in jobs  %}
+
+                 {% url  'companies:job_detail'  job.id as job_detail_url %}
+                 {% job_card  job=job    redirect_link=job_detail_url  %}
+
+               {% endfor  %}
+           {% else  %}
+                <b class="text-center mx-auto text-content-muted"> No advertised jobs</b>
+           {% endif  %}
+       </div>
+    </div>
+
+</div>
+
+
+
+{% endblock  %}

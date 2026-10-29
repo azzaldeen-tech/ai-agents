@@ -1,0 +1,49 @@
+<div class="bg-surface-card rounded-3xl p-6 border border-stroke shadow-sm h-[400px]">
+    <div class="flex items-center justify-between mb-6">
+        <h3 class="font-display font-bold text-content">{{ title|safe }}</h3>
+    </div>
+
+    <div class="relative h-64">
+        <canvas id="weeklyChart"></canvas>
+    </div>
+</div>
+
+{{ weekly_data_json|json_script:"weekly-data-raw" }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dataElement = document.getElementById('weekly-data-raw');
+        if (!dataElement) return;
+
+        const weeklyData = JSON.parse(dataElement.textContent);
+        const ctx = document.getElementById('weeklyChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: weeklyData.labels,
+                datasets: [
+                    {
+                        label: 'التعيينات',
+                        data: weeklyData.hires,
+                        backgroundColor: '#e06040',
+                        borderRadius: 6,
+                        maxBarThickness: 32,
+                    },
+                    {
+                        label: 'المتقدمون',
+                        data: weeklyData.apps,
+                        backgroundColor: 'rgba(16, 185, 129, 0.15)',
+                        borderRadius: 6,
+                        maxBarThickness: 32,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                // ... بقية خيارات الـ Chart.js التي أعددناها
+            }
+        });
+    });
+</script>

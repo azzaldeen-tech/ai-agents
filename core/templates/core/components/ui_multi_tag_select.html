@@ -1,0 +1,270 @@
+
+<div class="form-control w-full mb-6" x-data="{}">
+    {% if label %}
+    <label class="label mb-1">
+        <span class="text-sm font-semibold text-gray-700 tracking-wide">
+            {{ label }}
+        </span>
+    </label>
+    {% endif %}
+
+    <div class="relative w-full mt-2">
+        <select
+            id="ts-{{ name }}"
+            name="{{ name }}"
+            multiple
+            placeholder="{{ placeholder|default:'اختر المهارات...' }}"
+            class="tom-select-target w-full"
+        >
+            {% for choice in choices %}
+              <option value="{{ choice.id }}"
+        {% if choice.id in selected_values %} selected {% endif %}>
+        {{ choice.name }}
+    </option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<script>
+(function() {
+    const setup = () => {
+        const el = document.getElementById('ts-{{ name }}');
+        if (el && !el.tomselect) {
+            new TomSelect(el, {
+                plugins: ['remove_button', 'clear_button'],
+                persist: false,
+                create: true,
+                dir: 'rtl',
+                openOnFocus: false,
+                shouldOpen: function() {
+                    return this.inputValue.length > 0;
+                },
+                onInitialize: function() {
+                    this.control.classList.add(
+                        'w-full',
+                        'min-h-[3.2rem]',
+                        'px-3',
+                        'py-2',
+                        'rounded-xl',
+                        'bg-[#F8F8F5]',
+                        'border',
+                        'border-gray-200',
+                        'shadow-sm',
+                        'flex',
+                        'items-center',
+                        'gap-1',
+                        'transition',
+                        'duration-200'
+                    );
+                    const selectedItems = Array.from(el.querySelectorAll('option:checked')).map(opt => opt.value);
+                    selectedItems.forEach(value => {
+                        this.addItem(value, true); // true لمنع إطلاق أحداث التغيير عند التحميل
+                    });
+                    // تأثير التركيز
+                    this.control.addEventListener('focusin', () => {
+                        this.control.classList.add('ring-2','ring-primary/30','border-primary');
+                    });
+                    this.control.addEventListener('focusout', () => {
+                        this.control.classList.remove('ring-2','ring-primary/30','border-primary');
+                    });
+                }
+            });
+        }
+    };
+
+    if (document.readyState === 'complete') setup();
+    else window.addEventListener('load', setup);
+    document.addEventListener('htmx:afterSwap', setup);
+})();
+</script>
+
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+
+<style>
+
+/* مسافة داخلية للحقل بالكامل */
+.ts-control {
+    padding-left: 12px !important;
+    padding-right: 14px !important;
+}
+
+/* مسافة للنص الذي يكتبه المستخدم */
+.ts-control input {
+    margin-left: 4px;
+    margin-right: 4px;
+        padding-right: 6px !important;
+}
+
+
+
+/* مسافة بين الـ tags والحواف */
+
+
+
+
+
+
+/* تحسين شكل الحقل */
+.ts-wrapper.multi .ts-control {
+    border-radius: 14px !important;
+    cursor: text;
+}
+
+/* Tags */
+.ts-control .item {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+
+    padding: 6px 10px;
+    border-radius: 10px !important;
+    font-size: 0.85rem;
+    margin: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px 6px 12px !important; /* أعلى يمين أسفل يسار */
+    border-radius: 10px;
+}
+
+/* زر الحذف */
+.ts-control .remove {
+    opacity: 0.7;
+    transition: 0.2s;
+     padding: 0px !important;
+}
+.ts-control .remove:hover {
+    opacity: 1;
+}
+
+/* القائمة المنسدلة */
+.ts-dropdown {
+    border-radius: 14px !important;
+    border: none !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08) !important;
+    padding: 6px;
+}
+
+/* العناصر داخل القائمة */
+.ts-dropdown .option {
+    border-radius: 10px;
+    padding: 8px 10px;
+    transition: 0.2s;
+}
+
+.ts-dropdown .option:hover {
+    background: #f1f5f9;
+}
+
+/* العنصر المحدد */
+.ts-dropdown .active {
+    background: #e0e7ff !important;
+    color: #3730a3;
+}
+</style>
+
+
+<!--<div class="form-control w-full mb-4">-->
+<!--    {% if label %}-->
+<!--    <label class="label text-sm font-medium opacity-80 mb-1">{{ label }}</label>-->
+<!--    {% endif %}-->
+
+<!--    <div class="w-full">-->
+<!--        <select-->
+<!--            id="ts-{{ name }}"-->
+<!--            name="{{ name }}"-->
+<!--            multiple-->
+<!--            placeholder="ابدأ الكتابة للبحث عن مهارات..."-->
+<!--            class="tom-select-target"-->
+<!--        ></select>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">-->
+<!--<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>-->
+<!--<script>-->
+<!--    (function() {-->
+<!--        const setup = () => {-->
+<!--            const el = document.getElementById('ts-{{ name }}');-->
+<!--            if (el && !el.tomselect) {-->
+
+<!--                new TomSelect(el, {-->
+<!--                    valueField: 'id',-->
+<!--                    labelField: 'name',-->
+<!--                    searchField: 'name',-->
+<!--                    plugins: ['remove_button', 'clear_button'],-->
+<!--                    dir: 'rtl',-->
+<!--                    // منع التحميل التلقائي عند الفتح، فقط عند الكتابة-->
+<!--                   load: function(query, callback) {-->
+<!--                        if (!query.length) return callback();-->
+
+<!--                        // المسار الخاص بك مع تمرير المعامل 'search' كما في الـ View-->
+<!--                        const url = "{% url 'core:search_skills' %}?search=" + encodeURIComponent(query);-->
+
+<!--                        fetch(url, {-->
+<!--                            headers: {-->
+<!--                                'X-Requested-With': 'XMLHttpRequest' // لإخبار دجانجو أنه طلب AJAX-->
+<!--                            }-->
+<!--                        })-->
+<!--                        .then(response => response.text()) // نطلب نص (HTML) لأن الـ View يعيد Render-->
+<!--                        .then(html => {-->
+
+<!--                            const parser = new DOMParser();-->
+<!--                            const doc = parser.parseFromString(html, 'text/html');-->
+<!--                            // استخراج الخيارات من الـ partial (هذا حل ذكي إذا أصررت على الـ render)-->
+<!--                            const results = Array.from(doc.querySelectorAll('.skill-item')).map(el => ({-->
+<!--                                id: el.dataset.id,-->
+<!--                                name: el.innerText.strip()-->
+<!--                            }));-->
+<!--                            console.log(results)-->
+<!--                            callback(results);-->
+<!--                        }).catch(() => {-->
+<!--                            callback();-->
+<!--                        });-->
+<!--                    },-->
+<!--                    render: {-->
+<!--                        // تخصيص شكل النتيجة أثناء البحث-->
+<!--                        option: function(item, escape) {-->
+
+<!--                            return `<div class="py-2 px-3 hover:bg-primary/10 cursor-pointer transition-colors border-b border-gray-50 last:border-0">-->
+<!--                                        <span class="font-medium text-gray-700">${escape(item.name)}</span>-->
+<!--                                    </div>`;-->
+<!--                        },-->
+<!--                        // تخصيص شكل التاج المختار (ليناسب تصميمك الاحترافي)-->
+<!--                        item: function(item, escape) {-->
+<!--                            return `<div class="badge badge-primary py-4 px-3 text-white rounded-lg m-1">${escape(item.name)}</div>`;-->
+<!--                        }-->
+<!--                    },-->
+<!--                    onInitialize: function() {-->
+<!--                        this.control.classList.add('custom-modern-select');-->
+<!--                    }-->
+<!--                });-->
+<!--            }-->
+<!--        };-->
+
+<!--        // التشغيل-->
+<!--        if (document.readyState === 'complete') setup();-->
+<!--        else window.addEventListener('load', setup);-->
+<!--        document.addEventListener('htmx:afterSwap', setup);-->
+<!--    })();-->
+<!--</script>-->
+
+<!--<style>-->
+<!--    /* التنسيق الذي طلبته (البحث فوق والتاجات تحت) */-->
+<!--    .custom-modern-select {-->
+<!--        display: flex !important;-->
+<!--        flex-wrap: wrap !important;-->
+<!--        flex-direction: row !important;-->
+<!--        background-color: #F4F4F1 !important;-->
+<!--        border: none !important;-->
+<!--        border-radius: 12px !important;-->
+<!--        padding: 12px !important;-->
+<!--    }-->
+<!--    .custom-modern-select > input {-->
+<!--        flex: 1 1 100% !important;-->
+<!--        order: -1 !important;-->
+<!--        border-bottom: 1px solid rgba(0,0,0,0.05) !important;-->
+<!--        margin-bottom: 8px !important;-->
+<!--        padding: 8px 4px !important;-->
+<!--    }-->
+<!--</style>-->
+

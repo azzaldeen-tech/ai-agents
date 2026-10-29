@@ -1,0 +1,32 @@
+<div class="bg-surface-card rounded-2xl p-5 hover:shadow-md transition-all duration-300 animate-slide-up shadow-sm border border-stroke-soft"
+     style="animation-delay: {{ delay }}">
+
+    {% if redirect_link %}<a href="{{ redirect_link }}" class="block">{% endif %}
+
+    <div class="flex flex-col">
+        <div class=" w-11 h-11  rounded-xl {{ icon_bg }} {{ icon_text }} flex items-center justify-center mb-4">
+
+             <i data-lucide="{{icon}}" class=" text-gray-400 group-hover:text-primary-600 transition-colors"></i>
+        </div>
+
+        <div class="font-display text-[20px] font-bold text-content leading-none mb-1">
+            <span data-target="{{ amount }}">{{ amount }}</span>
+        </div>
+
+        <div class="text-content-muted text-xs font-medium mb-3">{{ title }}</div>
+
+        <div class="flex items-center gap-1.5 text-[11px]">
+        <span class="{{ badge_class }} font-bold px-2 py-0.5 rounded-lg">
+            {% if badge_icon %}
+
+             <i data-lucide="{{ badge_icon }}" class=" text-gray-400 group-hover:text-primary-600 transition-colors"></i>
+            {% endif %}
+            {% if badge_amount %} {{ badge_amount }} {% endif %}
+        </span>
+       {% if badge_text %}  {{ badge_text}}  {% endif %}
+        </div>
+    </div>
+
+
+    {% if redirect_link %}</a>{% endif %}
+</div>

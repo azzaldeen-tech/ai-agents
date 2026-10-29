@@ -1,0 +1,196 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+
+
+
+
+    <!-- الحاوية الرئيسية -->
+    <div class="max-w-6xl mx-auto px-4 py-8">
+
+        {% if company %}
+            <!-- 1. قسم الغلاف والهيدر (Header & Cover) -->
+            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 mb-8">
+                <!-- الغلاف العلوي (يمكن استبداله بخلفية ملونة أو صورة) -->
+                <div class="h-48 w-full bg-gradient-to-r from-indigo-600 to-primary relative">
+                    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                </div>
+
+                <!-- تفاصيل الشركة العلوية -->
+                <div class="px-6 pb-6 relative flex flex-col md:flex-row items-start md:items-end gap-5 -mt-12">
+                    <!-- شعار الشركة -->
+                    <div class="w-28 h-28 rounded-2xl border-4 border-white bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center overflow-hidden shadow-md shrink-0 z-10">
+                        {% if company.get_logo_url %}
+                            <img src="{{ company.get_logo_url }}" alt="{{ company.name }}" class="w-full h-full object-cover">
+                        {% else %}
+                            <i class="fas fa-building text-4xl text-slate-300"></i>
+                        {% endif %}
+                    </div>
+
+                    <!-- الاسم والتفاصيل الأساسية -->
+                    <div class="flex-1 text-right  mt-0    pt-0 md:pt-0">
+                        <div class="flex flex-wrap items-center gap-3 mb-16">
+                            <h1 class="text-2xl font-black text-white">{{ company.name }}</h1>
+                            {% if company.is_verified %}
+                                <span class="inline-flex items-center justify-center w-5 h-5 bg-blue-500 text-white rounded-full text-[10px]" title="حساب موثق">
+                                    <i class="fas fa-check"></i>
+                                </span>
+                            {% endif %}
+                        </div>
+
+                        <!-- واصفات الشركة -->
+                        <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm text-slate-500 font-medium">
+                            <span class="flex items-center gap-1.5">
+                                <i class="fas fa-briefcase text-slate-400"></i>
+                                <p>{{ company.bio }}</p>
+                            </span>
+                            <span class="flex items-center gap-1.5">
+<!--                                <i class="fas fa-map-marker-alt text-rose-500"></i>-->
+                                <i class="fas fa-map-marker-alt text-gray-700 text-[18px]"></i>
+                                {{ company.location }}
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <i class="fas fa-users text-slate-400"></i> {{ company.user.email }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- أزرار التفاعل والموقع -->
+                    <div class="flex flex-wrap gap-2 w-full md:w-auto mt-4 md:mt-0">
+                        {% if company.website %}
+                            <a href="{{ company.website }}" target="_blank" class="flex-1 md:flex-none inline-flex items-center justify-center gap-2 text-sm font-bold rounded-xl px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                                <i class="fas fa-globe text-slate-500"></i> الموقع الإلكتروني
+                            </a>
+                        {% endif %}
+<!--                        <button class="flex-1 md:flex-none inline-flex items-center justify-center gap-2 text-sm font-bold rounded-xl px-5 py-2.5 bg-primary hover:bg-indigo-700 text-white shadow-sm transition-colors">-->
+<!--                            <i class="fas fa-plus"></i> متابعة-->
+<!--                        </button>-->
+                    </div>
+                </div>
+            </div>
+            <!-- 2. شبكة المحتوى (Grid Layout) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- العمود الأيمن: نبذة عن الشركة والوظائف (المحتوى الأساسي) -->
+                <div class="lg:col-span-2 space-y-8">
+
+                    <!-- لوحة: نبذة عن الشركة -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm text-right">
+                        <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i class="fas fa-info-circle text-primary"></i> عن المنشأة
+                        </h2>
+                        <p class="text-slate-600 text-sm leading-relaxed whitespace-pre-line">
+                            {{ company.bio }}
+                            <!-- نص تجريبي في حال عدم وجود بيانات ديناميكية كاملة -->
+                            تسعى منشأتنا إلى تقديم أفضل الحلول الابتكارية لعملائنا في المنطقة، نؤمن بأن رأس مالنا الحقيقي هو الكوادر البشرية المبدعة التي نعمل معاً على تطويرها وتوفير بيئة عمل مثالية ومحفزة لإنتاج أقصى الطاقات.
+                        </p>
+                    </div>
+
+                    <!-- لوحة: الوظائف الشاغرة حالياً -->
+                    <div class="text-right">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <i class="fas fa-bullhorn text-primary"></i> الفرص الوظيفية الحالية
+                            </h2>
+                            <span class="text-xs font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-md">
+                                {{ company.active_jobs|length }} وظيفة نشطة
+                            </span>
+                        </div>
+
+                        <!-- قائمة الوظائف الشاغرة -->
+                        <div class="space-y-4">
+                            {% for job in company_jobs  %}
+                                <!-- كارت وظيفة تكراري (Loop) -->
+                                <div class="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:border-slate-200 transition-all flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 group">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-12 h-12 bg-indigo-50 text-primary rounded-xl flex items-center justify-center text-lg shrink-0">
+                                            <i class="fas fa-laptop-code"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-slate-800 text-sm mb-1 group-hover:text-primary transition-colors">
+                                            {{ job.title }}
+                                            </h3>
+                                              <span class="flex items-center gap-1">
+                                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                                {{ job.created_at  }}
+                                             </span>
+                                              <span class="inline-flex items-center gap-1">
+                                                    <i class="fa-solid fa-clock"></i> {{ job.employment_type }}
+                                              </span>
+                                        </div>
+                                    </div>
+                                    {% if not job.is_applied and  job.job_join_url  %}
+                                        <!-- زر التقديم الجديد -->
+                                        <a href="{{ job.job_join_url }}" class="w-full sm:w-auto inline-flex items-center justify-center text-xs font-bold rounded-xl px-4 py-2.5 bg-slate-50 hover:bg-blue-600 hover:text-white border border-slate-200 text-slate-600 transition-all duration-200">
+                                            تقديم الآن
+                                        </a>
+                                    {% elif job.job_cancel_url %}
+                                        <!-- زر إلغاء التقديم المتناسق -->
+                                        <a href="{{ job.job_cancel_url }}" class="w-full sm:w-auto inline-flex items-center justify-center text-xs font-bold rounded-xl px-4 py-2.5 bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-200 transition-all duration-200">
+                                             إلغاء التقديم
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            {% empty %}
+                                <!-- حالة عدم وجود وظائف -->
+                                <div class="bg-white rounded-2xl p-12 border border-slate-100 shadow-sm text-center">
+                                    <div class="w-16 h-16 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-2xl mx-auto mb-3">
+                                        <i class="fas fa-briefcase"></i>
+                                    </div>
+                                    <p class="text-slate-400 text-sm font-medium">لا توجد وظائف معلنة حالياً في هذه المنشأة</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- العمود الأيسر: إحصائيات ومعلومات التواصل الجانبية -->
+                <div class="space-y-6 text-right">
+
+                    <!-- لوحة: معلومات إضافية سريعة -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h2 class="text-sm font-bold text-slate-900 mb-4 pb-3 border-b border-slate-50">بطاقة تعاريف المنشأة</h2>
+
+                        <div class="space-y-4">
+
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-400"><i class="fas fa-shield-alt ml-1.5"></i> الحالة الجانبية</span>
+                                <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded text-[10px] border border-emerald-100">نشط</span>
+                            </div>
+                            <div class="flex justify-between items-center text-xs">
+                                <span class="text-slate-400"><i class="fas fa-tags ml-1.5"></i> نوع المنشأة</span>
+                                <span class="font-bold text-slate-700">شركة مساهمة</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- لوحة: قنوات التواصل الاجتماعي للشركة -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        <h2 class="text-sm font-bold text-slate-900 mb-4 pb-3 border-b border-slate-50">تواصل معنا عبر</h2>
+
+                        <div class="flex gap-2.5 justify-start">
+                            <a href="#" class="w-9 h-9 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-400 hover:text-blue-600 border border-slate-100 flex items-center justify-center text-sm transition-all" title="منصة X">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="w-9 h-9 rounded-xl bg-slate-50 hover:bg-blue-100 text-slate-400 hover:text-blue-700 border border-slate-100 flex items-center justify-center text-sm transition-all" title="لينكد إن">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-9 h-9 rounded-xl bg-slate-50 hover:bg-red-50 text-slate-400 hover:text-rose-600 border border-slate-100 flex items-center justify-center text-sm transition-all" title="إنستغرام">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% else %}
+            <span> No Data </span>
+        {% endif %}
+
+    </div>
+
+{% endblock  %}

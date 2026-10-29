@@ -1,0 +1,91 @@
+
+{% if redirect_link %}
+<a href="{{ redirect_link }}" class="block no-underline">
+{% endif %}
+
+
+<!-- Job Card -->
+<div class="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 group">
+    <div class="flex items-start justify-between mb-4">
+        <div class="w-14 h-14 {{ bg_color|default:'bg-pink-100' }} rounded-xl flex items-center justify-center">
+            <i data-lucide="{{ icon|default:'briefcase' }}" class="w-7 h-7 {{ icon_color|default:'text-pink-600' }}"></i>
+        </div>
+        <span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+            {{ job.get_job_type_display|default:job.job_type }}
+        </span>
+    </div>
+
+    <h3 class="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors">
+        {{ job.title }}
+    </h3>
+
+    <p class="text-gray-500 text-sm mb-4">{{ job.company_name }}</p>
+
+    <div class="flex items-center gap-4 text-sm text-gray-500 mb-4">
+        <span class="flex items-center gap-1">
+            <i data-lucide="map-pin" class="w-4 h-4"></i>
+            {{ job.location }}
+        </span>
+        <span class="flex items-center gap-1">
+            <i data-lucide="clock" class="w-4 h-4"></i>
+            {{ job.created_at|timesince }}
+        </span>
+    </div>
+
+    <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+        <span class="text-primary-600 font-bold">
+            {{ job.salary_min|floatformat:0 }} - {{ job.salary_max|floatformat:0 }} {{ job.currency|default:"ر.س" }}
+        </span>
+        <button class="text-gray-400 hover:text-primary-600 transition-colors">
+            <i data-lucide="bookmark" class="w-5 h-5"></i>
+        </button>
+    </div>
+</div>
+{% if redirect_link %}
+</a>
+{% endif %}
+
+<!--{% if redirect_link %}-->
+<!--<a href="{{ redirect_link }}" class="block no-underline">-->
+<!--{% endif %}-->
+
+<!--<div class="job-card group rounded-xl p-4 cursor-pointer transition-all hover:bg-surface-card border border-transparent hover:border-stroke-soft shadow-sm bg-surface"-->
+<!--     onclick="showToast('فتح تفاصيل الوظيفة: {{ j.title }}', 'info')">-->
+
+<!--    <div class="flex items-start justify-between mb-3">-->
+<!--        <div class="flex-1 min-w-0">-->
+<!--            <div class="text-[13px] font-semibold mb-1 truncate text-content">{{ j.title }}</div>-->
+<!--            <div class="flex items-center gap-2 text-[11px] text-content-muted">-->
+<!--                <span>{{ j.dept }}</span>-->
+<!--                <span class="w-1 h-1 rounded-full bg-stroke"></span>-->
+<!--                <span>منذ {{ j.days }} يوم</span>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <span class="text-[10px] font-semibold px-2 py-0.5 rounded-md shrink-0-->
+<!--            {% if is_active %}bg-brand-light text-brand{% else %}bg-surface-card text-content-muted{% endif %}">-->
+<!--            {{ j.status }}-->
+<!--        </span>-->
+<!--    </div>-->
+
+<!--    <div class="flex items-center gap-5">-->
+<!--        <div class="flex items-center gap-1.5 text-[11px] text-content-sub">-->
+<!--            <i class="fas fa-users text-[10px] text-content-muted"></i>-->
+<!--            <span><strong class="font-display text-content font-bold">{{ j.apps }}</strong> متقدم</span>-->
+<!--        </div>-->
+
+<!--        <div class="flex items-center gap-1.5 text-[11px] text-content-sub">-->
+<!--            <i class="fas fa-eye text-[10px] text-content-muted"></i>-->
+<!--            <span><strong class="font-display text-content font-bold">{{ j.views }}</strong> مشاهدة</span>-->
+<!--        </div>-->
+
+<!--        <div class="mr-auto flex items-center gap-1.5 text-[11px]">-->
+<!--            <span class="text-content-muted">التحويل</span>-->
+<!--            <span class="font-display font-bold text-brand">{{ conversion_rate }}%</span>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--{% if redirect_link %}-->
+<!--</a>-->
+<!--{% endif %}-->

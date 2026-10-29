@@ -1,0 +1,85 @@
+{% extends 'companies/base.html' %}
+
+{% block provider_content %}
+<style>
+
+</style>
+ {% back_button  %}
+
+<div class="flex items-center justify-center py-3 px-4 sm:px-6 lg:px-8">
+
+    <div class="bg-surface text-content w-3/4 p-8 rounded-2xl border border-gray-200">
+<!--         url='companies:dashboard'-->
+
+
+        <h2 class="text-3xl font-bold text-center mb-8 text-current">
+             {% if is_edit %} {% trans "Edit Job" %} {% else %} {% trans "New Job" %} {% endif %}
+        </h2>
+
+        <form method="post" enctype="multipart/form-data" novalidate class="space-y-6">
+            {% csrf_token %}
+            <div class="grid  gap-6 p-4">
+
+
+
+    {% for field in form %}
+        <div class="flex flex-col gap-3  w-full">
+
+
+            {% if field.name == 'required_skills' %}
+
+                {% ui_multi_tag_select  name="required_skills" label="المهارات المطلوبة" selected_values=field.value choices=skills_list %}
+
+             {% elif field.name == 'location' %}
+
+
+
+            {% else %}
+                <label class="text-sm font-medium opacity-80">
+                    {{ field.label }}
+                </label>
+
+                {# إضافة كلاسات Tailwind للحقول العادية لتبدو متناسقة #}
+                <div class="form-control">
+                    {{ field }}
+                </div>
+            {% endif %}
+
+            {# عرض الأخطاء إن وجدت #}
+            {% if field.errors %}
+                <p class="text-error text-xs mt-1">{{ field.errors.0 }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+            <div class="max-w-md mx-auto">
+                {% submit-button label=is_edit|yesno:_("Update,Save") icon="save" bg_color="bg-brand" content_color="btn-text" %}
+            </div>
+        </form>
+
+<script>
+
+<!--$(document).ready(function() {-->
+<!--    $('.select2-skills').select2({-->
+<!--        placeholder: "اختر المهارات المطلوبة...",-->
+<!--        allowClear: true,-->
+<!--        width: '100%',-->
+<!--        dir: "rtl", // لدعم اللغة العربية-->
+<!--        language: {-->
+<!--            noResults: function() { return "لا توجد نتائج مطابقة"; }-->
+<!--        }-->
+<!--    });-->
+
+<!--    // كود إضافي لتحسين مظهر Select2 ليتناسب مع Tailwind-->
+<!--    $('.select2-container&#45;&#45;default .select2-selection&#45;&#45;multiple').addClass('input input-bordered h-auto min-h-[3rem] py-1');-->
+<!--});-->
+
+
+</script>
+    </div>
+</div>
+
+
+
+{% endblock  %}
