@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth import login
 
 from core.app_links import AppLinks
-from .forms import  CompanySignupForm, MemberSignupForm
+# from .forms import  CompanySignupForm, MemberSignupForm
 
 from django.conf import settings
 from django.shortcuts import redirect
@@ -47,44 +47,32 @@ def select_account_type(request):
 
     return render(request, 'account/select_account_type.html', {'identity_roles': identity_roles})
 
-# def signup(request):
+
+
+# def signup_company(request):
 #     if request.method == 'POST':
-#         # هنا نستقبل البيانات المدخلة والوسائط من واجهة المستخدم
-#         form = CustomSignupForm(request.POST, request.FILES)
-#         #يتأكد من أن البريد الإلكتروني صحيح، كلمة المرور مطابقة للشروط، وأن المستخدم غير موجود مسبقاً.
+#         form = CompanySignupForm(request.POST, request.FILES)
+#         print("Register::")
 #         if form.is_valid():
-#             user = form.save() # تحويل كائن البيانات المدخلة الى استعلام قابل لتنفيذ في قاعدة البيانات
-#             login(request, user) # تسجيل دخول تلقائي بعد التسجيل
-#             return redirect('core:home') # الانتقال لصفحة الرئيسية
+#             print("Register2::")
+#             user = form.save(request)
+#             login(request, user)
+#             return redirect(AppLinks.Dashboards.COMPANY)
 #     else:
-#         form = CustomSignupForm()
+#         form = CompanySignupForm()
 #     return render(request, 'account/signup.html', {'form': form})
-
-
-def signup_company(request):
-    if request.method == 'POST':
-        form = CompanySignupForm(request.POST, request.FILES)
-        print("Register::")
-        if form.is_valid():
-            print("Register2::")
-            user = form.save(request)
-            login(request, user)
-            return redirect(AppLinks.Dashboards.COMPANY)
-    else:
-        form = CompanySignupForm()
-    return render(request, 'account/signup.html', {'form': form})
-
-
-def signup_member(request):
-    if request.method == 'POST':
-        form = MemberSignupForm(request.POST, request.FILES)
-        if form.is_valid():
-            user = form.save(request)
-            login(request, user)
-            return redirect(AppLinks.Dashboards.MEMBER)
-    else:
-        form = MemberSignupForm()
-    return render(request, 'account/signup.html', {'form': form})
+#
+#
+# def signup_member(request):
+#     if request.method == 'POST':
+#         form = MemberSignupForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             user = form.save(request)
+#             login(request, user)
+#             return redirect(AppLinks.Dashboards.MEMBER)
+#     else:
+#         form = MemberSignupForm()
+#     return render(request, 'account/signup.html', {'form': form})
 
 # دالة تسجيل حساب وضيفتها:
 # التحقق من نوع دالة الارسال  post | get  او غيرها

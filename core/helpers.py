@@ -23,7 +23,7 @@ def get_identities_apps():
     site_roles = getattr(settings, 'SITE_ROLES', [])
     identity_apps={}
     for identity in site_roles:
-        if identity['code'] and identity['is_identity'] and identity['app_name']:
+        if identity and  identity['code'] and identity['is_identity'] and identity['app_name']:
             code=identity['code']
             identity_apps[code]=identity['app_name']
     return identity_apps

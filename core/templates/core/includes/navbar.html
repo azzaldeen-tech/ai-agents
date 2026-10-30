@@ -21,11 +21,7 @@
                 {% if user.is_authenticated and user.is_identity and user.get_dashboard_url %}
                     <a href="{{ user.get_dashboard_url }}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 text-sm">{% trans "Dashboard" %}</a>
                 {% endif %}
-                <a href="{% url 'core:labor_market_trends' %}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 text-sm">{% trans 'Labor Market Trends' %}</a>
-                {% if not user.is_authenticated or user.is_member %}
-                    <a href="{% url 'core:jobs_explore' %}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 text-sm">استكشاف الوظائف</a>
-                {% endif %}
-                <a href="{% url 'core:companies_explore' %}" class="text-gray-700 dark:text-gray-200 hover:text-blue-600 text-sm">أصحاب العمل</a>
+
             </div>
 
             <!-- الجزء الأيمن: تسجيل الدخول / بيانات المستخدم -->
@@ -34,10 +30,10 @@
                     <div class="flex items-center space-x-2 md:space-x-4">
                         <span class="hidden sm:inline-block px-2 py-0.5 rounded-full text-[10px] bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">{% trans "Online" %}</span>
                         <span class="text-sm text-gray-700 dark:text-gray-200 hidden sm:block">{{ user.display_name }}</span>
-                        <form action="{% url 'account_logout' %}" method="post">
-                            {% csrf_token %}
-                            <button type="submit" class="text-red-500 text-sm font-semibold">{% trans "Logout" %}</button>
-                        </form>
+<!--                        <form action="{% url 'account_logout' %}" method="post">-->
+<!--                            {% csrf_token %}-->
+<!--                            <button type="submit" class="text-red-500 text-sm font-semibold">{% trans "Logout" %}</button>-->
+<!--                        </form>-->
                     </div>
                 {% else %}
                     <div class="flex items-center gap-x-2">
@@ -52,9 +48,7 @@
     <!-- قائمة الهاتف المنسدلة -->
     <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-900 border-t border-gray-200 dark:border-slate-800 p-4 space-y-3">
         <a href="{% url 'core:home' %}" class="block text-gray-700 dark:text-gray-200">{% trans "Home" %}</a>
-        <a href="{% url 'core:labor_market_trends' %}" class="block text-gray-700 dark:text-gray-200">{% trans 'Labor Market Trends' %}</a>
-        <a href="{% url 'core:jobs_explore' %}" class="block text-gray-700 dark:text-gray-200">استكشاف الوظائف</a>
-        <a href="{% url 'core:companies_explore' %}" class="block text-gray-700 dark:text-gray-200">أصحاب العمل</a>
+
     </div>
 </nav>
 
@@ -63,112 +57,3 @@
         document.getElementById('mobile-menu').classList.toggle('hidden');
     });
 </script>
-<!--<nav class=" border-b border-gray-200  bg-surface dark:border-slate-800 transition-colors duration-300">-->
-<!--    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">-->
-<!--        <div class="flex justify-between h-16 items-center">-->
-<!--        <div class="flex items-center gap-x-4">-->
-
-<!--                <a  href="{% url 'core:home' %}" >-->
-<!--                    <h1 class="text-2xl flex font-bold gradient-text">-->
-<!--&lt;!&ndash;                            <i data-lucide="trending-up" class="w-6 h-6 mx-3 "></i>  &ndash;&gt;-->
-<!--                        {% trans 'Labor Market Trends' %}</h1>-->
-<!--                    <p class="text-sm text-gray-500">{% trans 'Smart job and skills analytics' %}</p>-->
-<!--                </a>-->
-<!--            <div class="hidden md:flex gap-x-4">-->
-<!--                <a href="{% url 'core:home' %}" class=" text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-[15px]l">-->
-<!--                    {% trans "Home" %}-->
-<!--                </a>-->
-<!--                 {% if user.is_authenticated and user.is_identity and user.get_dashboard_url %}-->
-<!--                      <a href="{{ user.get_dashboard_url }}" class=" text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-[15px]l">-->
-<!--                            {% trans "Dashboard" %}-->
-<!--                      </a>-->
-
-<!--                {% endif  %}-->
-
-<!--                <a href="{% url 'core:labor_market_trends' %}"-->
-<!--                   class=" text-gray-700 flex dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-[15px]l">-->
-<!--&lt;!&ndash;                     <i data-lucide="trending-up" class="w-6 h-6 mx-3 text-[5px] "></i>&ndash;&gt;-->
-<!--                    {% trans 'Labor Market Trends' %}-->
-<!--                </a>-->
-
-<!--                {% if not user.is_authenticated or  user.is_authenticated and user.is_member %}-->
-<!--                     <a href="{% url 'core:jobs_explore' %}"-->
-<!--                         class=" text-gray-700 flex dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-[15px]">-->
-
-<!--                         استكشاف الوظائف-->
-<!--                     </a>-->
-<!--                 {% endif  %}-->
-<!--                <a href="{% url 'core:companies_explore' %}"-->
-<!--                   class=" text-gray-700 flex dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-[15px]l">-->
-
-<!--                    أصحاب العمل</a>-->
-
-
-
-<!--&lt;!&ndash;                {% if user.is_authenticated %}&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    {% if user.is_member %}&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    {% endif  %}&ndash;&gt;-->
-
-<!--&lt;!&ndash;                 {% endif  %}&ndash;&gt;-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--            <div class="flex items-center gap-x-4 ">-->
-<!--&lt;!&ndash;                <div class="language-switcher">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <form action="{% url 'set_language' %}" method="post" class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                        {% csrf_token %}&ndash;&gt;-->
-<!--&lt;!&ndash;                        <input name="next" type="hidden" value="{{ request.get_full_path }}">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <select name="language" onchange="this.form.submit()"&ndash;&gt;-->
-<!--&lt;!&ndash;                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-1.5 dark:bg-slate-800 dark:border-slate-700 dark:placeholder-gray-400 dark:text-white">&ndash;&gt;-->
-<!--&lt;!&ndash;                            {% get_current_language as LANGUAGE_CODE %}&ndash;&gt;-->
-<!--&lt;!&ndash;                            {% get_available_languages as LANGUAGES %}&ndash;&gt;-->
-<!--&lt;!&ndash;                            {% for lang in LANGUAGES %}&ndash;&gt;-->
-<!--&lt;!&ndash;                                <option value="{{ lang.0 }}" {% if lang.0 == LANGUAGE_CODE %}selected{% endif %}>&ndash;&gt;-->
-<!--&lt;!&ndash;                                    {{ lang.1 }}&ndash;&gt;-->
-<!--&lt;!&ndash;                                </option>&ndash;&gt;-->
-<!--&lt;!&ndash;                            {% endfor %}&ndash;&gt;-->
-<!--&lt;!&ndash;                        </select>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </form>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                 <button onclick="toggleTheme()" class="btn btn-ghost">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="block dark:hidden [html[data-theme='emerald']_&]:hidden">☀️</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="hidden dark:block">🌙</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                </button>&ndash;&gt;-->
-
-<!--                {% if user.is_authenticated %}-->
-<!--                    <div class="flex items-center space-x-3  border-l rtl:border-l-0 rtl:border-r border-gray-200 dark:border-slate-700 padding-inline-start-4 pl-4">-->
-<!--                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs text-[15px]l bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">-->
-<!--                            {% trans "Online" %}-->
-<!--                        </span>-->
-<!--                        {% if user.display_name %}-->
-<!--                            <span class="text-gray-700 dark:text-gray-200 text-[15px]l hidden sm:block">-->
-<!--                                {{ user.display_name }}-->
-<!--                            </span>-->
-<!--                         {% endif %}-->
-
-<!--                        <form action="{% url 'account_logout' %}" method="post" class="inline">-->
-<!--                            {% csrf_token %}-->
-<!--                            <button type="submit" class="btn text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 text-sm font-semibold">-->
-<!--                                {% trans "Logout" %}-->
-<!--                            </button>-->
-<!--                        </form>-->
-<!--                    </div>-->
-<!--                {% else %}-->
-<!--                    <div class="flex items-center space-x-2 ">-->
-
-<!--                        <a href="{% url 'account_login' %}" class="text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-800 px-4 py-2 rounded-lg text-[15px]l">-->
-<!--                            {% trans "Login" %}-->
-<!--                        </a>-->
-<!--                        <a href="{% url 'accounts:select_account_type' %}"-->
-<!--                           class="bg-brand  text-white px-4 py-2 rounded-lg text-[15px]l transition-colors">-->
-<!--                            {% trans "Register Now" %}-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                {% endif %}-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->

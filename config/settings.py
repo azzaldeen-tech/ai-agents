@@ -75,8 +75,8 @@ INSTALLED_APPS = [
     'core',
 
     # === [AUTO_GENERATED_APPS_START] ===
-    'members',
-    'companies',
+    # 'members',
+    # 'companies',
     # === [AUTO_GENERATED_APPS_END] ===
 
     # 2. تطبيقات Allauth (يجب أن تأتي بعد تطبيقات Django الأساسية)
@@ -158,8 +158,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                'companies.context_processors.stats_processor',
-                'members.context_processors.stats_processor',
+                # 'companies.context_processors.stats_processor',
+                # 'members.context_processors.stats_processor',
 
             ],
 
@@ -305,24 +305,24 @@ else:
 # create identity roles in your website
 
 SITE_ROLES = [
-    {
-        'code': 'member',
-        'name': 'member',
-        'app_name': 'members',
-        'domain': 'gmail',
-        'is_identity': True ,
-        'requires_approval': False,
-        'view_in_register': True,
-    },
-    {
-        'code': 'company',
-        'name': 'company',
-        'app_name': 'companies',
-        'domain': 'company',
-        'is_identity': True,
-        'requires_approval': True,
-        'view_in_register': True
-    },
+    # {
+    #     'code': 'member',
+    #     'name': 'member',
+    #     'app_name': 'members',
+    #     'domain': 'gmail',
+    #     'is_identity': True ,
+    #     'requires_approval': False,
+    #     'view_in_register': True,
+    # },
+    # {
+    #     'code': 'company',
+    #     'name': 'company',
+    #     'app_name': 'companies',
+    #     'domain': 'company',
+    #     'is_identity': True,
+    #     'requires_approval': True,
+    #     'view_in_register': True
+    # },
 ]
 
 #  Linking roles to their respective control panels

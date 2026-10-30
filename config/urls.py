@@ -29,8 +29,8 @@ urlpatterns += i18n_patterns(
 
     # === [AUTO_GENERATED_URLS_START] ===
 
-    path('companies/', include('companies.urls')),
-    path('members/', include('members.urls')),
+    # path('companies/', include('companies.urls')),
+    # path('members/', include('members.urls')),
 
     # === [AUTO_GENERATED_URLS_END] ===
     # هذا الخيار يمنع ظهور /ar/ في الرابط للغة الافتراضية إذا أردت ذلك

@@ -2,8 +2,6 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-
-
 class Country(models.Model):
     name = models.CharField(_("name"), max_length=255, blank=False)
     code = models.CharField(_("code"), max_length=10, unique=True, blank=False)
@@ -35,10 +33,6 @@ class City(models.Model):
     def __str__(self):
         return f"{self.name}"
 
-
-
-
-
 class SkillCategory(models.Model):
     name = models.CharField(max_length=255, verbose_name="Category")
     slug = models.SlugField(unique=True, help_text="Write the link in English here (e.g., web-development)")
@@ -50,7 +44,6 @@ class SkillCategory(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class Skill(models.Model):
     suggested_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
@@ -64,15 +57,6 @@ class Skill(models.Model):
 
     def __str__(self):
         return self.name
-
-
-
-
-
-
-
-
-
 
 class FavoriteJobs(models.Model):
 

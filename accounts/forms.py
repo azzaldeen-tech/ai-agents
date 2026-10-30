@@ -4,7 +4,7 @@ from email._header_value_parser import ContentType
 from django import forms
 from setuptools.config._validate_pyproject import ValidationError
 from django.utils.translation import gettext_lazy as _
-from companies.models import CompanyProfile
+# from companies.models import CompanyProfile
 from core.helpers import get_identity_domain
 from members.models import MemberProfile
 from .models import *
@@ -184,23 +184,8 @@ class CompanySignupForm(BaseAccountSignupForm):
         #     'email': forms.DateInput(attrs={'type': 'email'}),
         # }
 
-    def save(self, request):
-        # القيمة تم توليدها وتجهيزها مسبقاً في دالة clean الشاملة
-        user = super().save(request)
-        user.name = self.cleaned_data.get('name')
-        user.identity = Role.objects.filter(code=self.role_code).first()
-        user.save()
-
-        CompanyProfile.objects.create(
-            user=user,
-            name=self.cleaned_data.get('name'),
-            location=self.cleaned_data.get('location'),
-            bio=self.cleaned_data.get('bio')
-        )
-        return user
-
     # def save(self, request):
-    #     self.cleaned_data['username'] = self.clean_username()
+    #     # القيمة تم توليدها وتجهيزها مسبقاً في دالة clean الشاملة
     #     user = super().save(request)
     #     user.name = self.cleaned_data.get('name')
     #     user.identity = Role.objects.filter(code=self.role_code).first()
@@ -210,69 +195,8 @@ class CompanySignupForm(BaseAccountSignupForm):
     #         user=user,
     #         name=self.cleaned_data.get('name'),
     #         location=self.cleaned_data.get('location'),
-    #         # registration_number=self.cleaned_data.get('registration_number'),
     #         bio=self.cleaned_data.get('bio')
     #     )
     #     return user
 
 
-
-
-# 2. الكلاس الموحد والنهائي (استخدم هذا الاسم فقط)
-# class CustomSignupForm(SignupForm, BaseStyledForm):
-#
-#     identity = forms.ModelChoiceField(
-#         queryset=Role.objects.filter(view_in_register=True, is_identity=True),
-#         label="Account Type",
-#         empty_label="--- Select account type ---",
-#         required=True
-#     )
-#
-#     def __init__(self, *args, **kwargs):
-#         # تشغيل الـ init الخاص بـ Allauth
-#         super(CustomSignupForm, self).__init__(*args, **kwargs)
-#         if 'username' in self.fields:
-#             self.fields['username'].widget = forms.HiddenInput()
-#             self.fields['username'].required = False
-#         # تطبيق تنسيق Tailwind على كل الحقول (بما فيها الباسورد والايميل)
-#         self.apply_tailwind_styles()
-#
-#     def save(self, request):
-#         email=self.cleaned_data.get('email')
-#         self.cleaned_data['username']=email
-#         # حفظ المستخدم عبر Allauth أولاً
-#         user = super(CustomSignupForm, self).save(request)
-#
-#         # حفظ الحقول الإضافية في موديل CustomUser
-#         user.first_name = self.cleaned_data['first_name']
-#         user.last_name = self.cleaned_data['last_name']
-#         user.identity = self.cleaned_data['identity']
-#
-#         user.save()
-#         return user
-
-
-#
-# # --- 2. نموذج تعديل البيانات الأساسية (User Model) ---
-# class UserUpdateForm(BaseStyledForm):
-#     class Meta:
-#         model = CustomUser
-#         # أضفنا الجوال وتاريخ الميلاد هنا لأنك وضعتهما في BaseCustomUser
-#         fields = ('first_name', 'last_name', 'username','email', 'phone_number', 'birth_date')
-#         widgets = {
-#             'birth_date': forms.DateInput(attrs={'type': 'date'}),
-#         }
-#
-# # --- 3. نموذج تعديل الملف الشخصي (Profile Model) ---
-# class ProfileUpdateForm(BaseStyledForm):
-#     class Meta:
-#         model = Profile  # التغيير الجذري هنا: نربطه بموديل Profile
-#         fields = ('picture', 'bio') # لاحظ الفاصلة بعد العنصر الأخير إذا كان واحداً
-#         widgets = {
-#             'bio': forms.Textarea(attrs={'rows': 3}),
-#         }
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         if 'bio' in self.fields:
-#             self.fields['bio'].widget.attrs.update({'class': self.tailwind_fields_classes + ' w-full resize-none'})

@@ -12,8 +12,8 @@ class AppLinks:
 
     class Dashboards:
         GENERAL = 'dashboard'
-        COMPANY = 'companies:dashboard'
-        MEMBER = 'members:dashboard'
+        # COMPANY = 'companies:dashboard'
+        # MEMBER = 'members:dashboard'
 
 
     # Others

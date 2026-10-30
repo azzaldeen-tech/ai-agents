@@ -12,7 +12,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('select_account_type/', views.select_account_type, name='select_account_type'),
     # path('signup/', views.signup, name='signup'),
-    path('signup_company/', views.signup_company, name='signup_company'),
-    path('signup_member/', views.signup_member, name='signup_member'),
+    # path('signup_company/', views.signup_company, name='signup_company'),
+    # path('signup_member/', views.signup_member, name='signup_member'),
     path('redirect-by-role/', views.redirect_by_role, name='redirect_by_role'),
 ]

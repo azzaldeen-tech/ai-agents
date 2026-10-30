@@ -6,10 +6,11 @@
 
 *Visualize trends · Track in-demand skills · Forecast career paths*
 
-<img src="static/img/solider.png" alt="Labor Market Analytics Home" width="800"/>
+[//]: # (<img src="static/img/solider.png" alt="Labor Market Analytics Home" width="800"/>)
 
 *Labor Market Analytics*
-<img src="static/img/img2.png" alt="Labor Market Analytics " width="800"/>
+
+[//]: # (<img src="static/img/img2.png" alt="Labor Market Analytics " width="800"/>)
 
 </div>
 
@@ -216,21 +217,26 @@ Labor-Market-Trends-Analysis-Platform/
 ```bash
 git clone https://github.com/azzaldeen-tech/Labor-Market-Trends-Analysis-Platform.git
 cd Labor-Market-Trends-Analysis-Platform
-
-# Windows
-python -m venv venv
-venv\Scripts\activate
-
-# Linux / macOS
-python3 -m venv venv
-source venv/bin/activate
+````
+ install virtual in Windows
+```bash
+python -m venv venv ||  py -3.14 -m venv venv
 ```
+active virtual in Windows
+```bash
+venv\Scripts\activate
+```
+
 
 ### 2️⃣ Install Dependencies
 
 ```bash
 pip install -r requirements.txt
-npm install --prefix theme/static_src   # Tailwind toolchain
+```
+
+Tailwind toolchain
+```bash
+npm install --prefix theme/static_src   
 ```
 
 ### 3️⃣ Configure Environment Variables
